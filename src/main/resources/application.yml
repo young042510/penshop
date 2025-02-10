@@ -1,0 +1,83 @@
+# server port config
+server:
+  port: 8083
+
+# datasource config
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: PENSHOP
+    password: 1234
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ENC(2dd5gAy4bV3p0WscFK5A9mEzZAUCuInVHQ3DfphmgWQ=)
+    password: ENC(l6MW26ItvASvjwA0r1Mb8WpIWYSzyq0LUv9BaXx5vqY=)
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+  profiles:
+    include: oauth
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: ENC(RDj46aFFXI4qeluaZgcXHTSUd9BWgwBQA9hNdYTd4FWb5v78gPIPouJFBwcatdA+IToVpPoYYpxpPNVuWhqKEhCDZKmzCyJZVRnqjRjCDEmgx22SFCRNrQ==)
+            client-secret: ENC(Vmg4lHJjl7LBilupF6tdwa0lNiopmc1mVWNn3XIf3/c5FJBrJ5GuIxWY22yfe1Ut)
+            scope:
+            - profile
+            - email
+          kakao:
+            client-id: ENC(melVgbEVbLvJMZO3szLidU1ateWkIID/2LelR6pGDHcGYSzt++g7bqI51w0MBZiH)
+            redirect-uri: http://localhost:8001/oauth2/kakao #server port? ???? ?? ? ??
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            scope:
+            - profile_nickname
+            - profile_image
+            - profile_email
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  #redis:
+    #host: localhost
+    #port: 6379
+
+# mybatis config
+mybatis:
+  mapper-locations: mappers/**/*.xml
+
+# custom properties
+# social login
+#social:
+  #kakao:
+   # apiKey: ENC(zqX5+fFjQBqF4tpZ0KusGJYKKIqBjJnFwcLsO9Kl9ooGifL+vAsDHtlXfUCD8wx2)
+    #redirectUri: http://localhost:8001/oauth2/kakao #server port? ???? ?? ? ??
+  #google:
+    #apiKey: ENC(sihF2RMc486/5BW7IMA7pW/YoAjL5pzJCz9DJIUJ8sXZ3e3DtpBQsl2Jdvye5pmLJJFsu604cc2t9TpxNA/Y+tLKngATR4LP4DdYpECg7FuXCO22lssPNg==)
+    #secretKey: ENC(WRi9kpDysY9z8MwbuyZ9Ojdl0jv1vvajwoS40wxfEY4w+Nd2onMlz0bCFkTzlGvO)
+    #redirectUri: http://localhost:8001/oauth2/google
+
+# sms message
+coolsms:
+  api:
+    key: ENC(nsJBO5z/ErgjV3/8JDvtNlaX0Sz3mXCPvlgpAfsJe4M=)
+    secretKey: ENC(n2LdlZT/jGyN3RLTCL9fX0OWSto2CeQ35gFwSX38dGUac2628jQD7YgRTCRjKUmn)
+  message:
+    from: ENC(Snex5LUGhsTS+mIQ6fSOop/nVpdbTtVE)
+
+
+
