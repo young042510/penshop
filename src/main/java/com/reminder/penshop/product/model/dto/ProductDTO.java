@@ -1,10 +1,9 @@
 package com.reminder.penshop.product.model.dto;
 
-import com.nimbusds.openid.connect.sdk.assurance.evidences.attachment.Attachment;
 import lombok.Data;
 
-import java.util.Date;
-import java.util.List;
+import java.sql.Date;
+
 
 @Data
 public class ProductDTO {
@@ -20,7 +19,7 @@ public class ProductDTO {
     private String prodOrigin;          //원산지
     private String prodDetailContent;   //상품상세내용
     private int prodDatailViewCount;    //상품상세조회수
-    private Data prodEnrollDate;        //상품등록일자
+    private Date prodEnrollDate;        //상품등록일자
     private Date prodChangeDate;	  //상품수정일자
     private char prodAvailYn;		  //상품판매여부
    // private List<AttachmentDTO> attachmentList;
