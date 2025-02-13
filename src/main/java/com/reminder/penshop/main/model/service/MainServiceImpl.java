@@ -13,12 +13,12 @@ import java.util.List;
 public class MainServiceImpl implements MainService {
 
 	private final MainMapper mainMapper;
-	
+
 	@Autowired
 	public MainServiceImpl(MainMapper mainMapper) {
 		this.mainMapper = mainMapper;
 	}
-	
+
 	@Override
 	public List<ProductDTO> getTop8ProductByPopularity() {
 		return mainMapper.getTop8ProductByPopularity();
