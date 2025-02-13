@@ -8,6 +8,7 @@ import java.util.List;
 
 @Mapper
 public interface MainMapper {
+
     List<ProductDTO> getTop8ProductByPopularity();
 
     List<ProductDTO> getLatest8ProductByEnrollDate();
