@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- 매퍼 네임스페이스 등록 후 사용해야 함 -->
-<mapper namespace="com.reminder.penshop.product.model.dao.ProductMapper">
+<mapper namespace="com.reminder.penshop.product.model.dao.CartDTO">
 
     <!-- 장바구니 조회용 -->
     <resultMap id="cartResultMap" type="com.reminder.penshop.cart.model.dto.CartDTO">
