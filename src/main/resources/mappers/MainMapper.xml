@@ -51,7 +51,7 @@
     </resultMap>
 
     <!-- 재고 조회용 -->
-    <resultMap id="stockResultMao" type="com.reminder.penshop.product.model.dto.StockDTO">
+    <resultMap id="stockResultMap" type="com.reminder.penshop.product.model.dto.StockDTO">
         <id property="stockNo" column="STOCK_NO"/>
         <result property="stockAmount" column="STOCK_AMOUNT"/>
         <result property="stockDate" column="STOCK_DATE"/>
