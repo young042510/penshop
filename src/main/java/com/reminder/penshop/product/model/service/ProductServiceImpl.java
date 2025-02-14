@@ -7,6 +7,8 @@ import com.reminder.penshop.product.model.dto.BrandDTO;
 import com.reminder.penshop.product.model.dto.CategoryDTO;
 import com.reminder.penshop.product.model.dto.OptionDTO;
 import com.reminder.penshop.product.model.dto.ProductDTO;
+import com.reminder.penshop.review.model.dto.ReviewDTO;
+import com.reminder.penshop.upload.model.dto.AttachmentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,9 @@ public class ProductServiceImpl implements ProductService {
     private ProductMapper productMapper;
 
     @Autowired
-    public ProductServiceImpl(ProductMapper productMapper) { this.productMapper = productMapper; }
+    public ProductServiceImpl(ProductMapper productMapper) {
+        this.productMapper = productMapper;
+    }
 
     @Override
     public List<CategoryDTO> getCategoryList() {
@@ -71,14 +75,15 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int addProduct(int categoryNo, String prodName, String prodDesc, String productTag, int discountRate, int prodPrice, int brandNo, String prodOrigin, String prodDetailContent) {
+    public int addProduct(int categoryNo, String prodName, String prodDesc, String productTag, int discountRate,
+                          int prodPrice, int brandNo, String prodOrigin, String prodDetailContent) {
         int result = productMapper.addProduct(categoryNo, prodName, prodDesc, productTag, discountRate, prodPrice, brandNo, prodOrigin, prodDetailContent);
         String savePath = prodDetailContent.split("\"")[3]; //본문 태그에서 url만 추출(/upload/product/content/000.jpg)
         productMapper.updateProdNoContentImage(savePath); //상품 상세내용이미지와 해당 상품번호 연결
-        return result ;
+        return result;
     }
 
-    /*@Override
+    @Override
     public int attachProdThumbnail(AttachmentDTO attachment) {
         return productMapper.attachProdThumbnail(attachment);
     }
@@ -87,7 +92,7 @@ public class ProductServiceImpl implements ProductService {
     public int attachProdContentImage(AttachmentDTO attachment) {
         return productMapper.attachProdContentImage(attachment);
     }
-*/
+
     @Override
     public int checkCurrProdNo() {
         return productMapper.checkCurrProdNo();
@@ -158,7 +163,7 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.getSoldOutOnly(criteria);
     }
 
-   /* @Override
+    @Override
     public AttachmentDTO getMainThumbnailByProdNo(int prodNo) {
         return productMapper.getMainThumbnailByProdNo(prodNo);
     }
@@ -167,7 +172,7 @@ public class ProductServiceImpl implements ProductService {
     public AttachmentDTO getSubThumbnailByProdNo(int prodNo) {
         return productMapper.getSubThumbnailByProdNo(prodNo);
     }
-*/
+
     @Override
     public List<OptionDTO> getOptionListByProdNo(int prodNo) {
         return productMapper.getOptionListByProdNo(prodNo);
@@ -236,11 +241,11 @@ public class ProductServiceImpl implements ProductService {
         return productMapper.getBrandByProdNo(prodNo);
     }
 
-   /* @Override
+    @Override
     public List<ReviewDTO> getReviewListByProdNo(int prodNo) {
         return productMapper.getReviewListByProdNo(prodNo);
     }
-*/
+
     @Override
     public double averageReviewRating(int prodNo) {
         return productMapper.averageReviewRating(prodNo);
