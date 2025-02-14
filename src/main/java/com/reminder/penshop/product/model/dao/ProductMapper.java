@@ -6,13 +6,14 @@ import com.reminder.penshop.product.model.dto.BrandDTO;
 import com.reminder.penshop.product.model.dto.CategoryDTO;
 import com.reminder.penshop.product.model.dto.OptionDTO;
 import com.reminder.penshop.product.model.dto.ProductDTO;
+import com.reminder.penshop.review.model.dto.ReviewDTO;
+import com.reminder.penshop.upload.model.dto.AttachmentDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
 public interface ProductMapper {
-
     List<CategoryDTO> getCategoryList();
 
     int checkCategoryNo(String categoryName);
@@ -36,9 +37,9 @@ public interface ProductMapper {
     int addProduct(int categoryNo, String prodName, String prodDesc, String productTag, int discountRate,
                    int prodPrice, int brandNo, String prodOrigin, String prodDetailContent);
 
-    // int attachProdThumbnail(AttachmentDTO attachment);
+    int attachProdThumbnail(AttachmentDTO attachment);
 
-    // int attachProdContentImage(AttachmentDTO attachment);
+    int attachProdContentImage(AttachmentDTO attachment);
 
     int checkCurrProdNo();
 
@@ -70,9 +71,9 @@ public interface ProductMapper {
 
     List<ProductDTO> getSoldOutOnly(Criteria criteria);
 
-    // AttachmentDTO getMainThumbnailByProdNo(int prodNo);
+    AttachmentDTO getMainThumbnailByProdNo(int prodNo);
 
-    // AttachmentDTO getSubThumbnailByProdNo(int prodNo);
+    AttachmentDTO getSubThumbnailByProdNo(int prodNo);
 
     List<OptionDTO> getOptionListByProdNo(int prodNo);
 
@@ -106,7 +107,7 @@ public interface ProductMapper {
 
     BrandDTO getBrandByProdNo(int prodNo);
 
-    //List<ReviewDTO> getReviewListByProdNo(int prodNo);
+    List<ReviewDTO> getReviewListByProdNo(int prodNo);
 
     double averageReviewRating(int prodNo);
 
@@ -116,7 +117,7 @@ public interface ProductMapper {
 
     int getTotalNumberOfReviews(int prodNo);
 
-    //List<AttachmentDTO> getAttachmentByReviewNo(int reviewNo);
+    List<AttachmentDTO> getAttachmentByReviewNo(int reviewNo);
 
     List<String> getBrandNameBySection(String category);
 
