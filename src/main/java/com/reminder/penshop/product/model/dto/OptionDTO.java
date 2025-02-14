@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class OptionDTO {
 
     private int optionNo;
-    private int refProdNO;
+    private int refProdNo;
     private int refStockNo;
     private String bodyColor;
     private String inkColor;
