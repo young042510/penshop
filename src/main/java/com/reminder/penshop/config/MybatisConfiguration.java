@@ -7,4 +7,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @MapperScan(basePackages = "com.reminder.penshop", annotationClass = Mapper.class)
 public class MybatisConfiguration {
+
 }
