@@ -1,8 +1,10 @@
 package com.reminder.penshop.product.model.dto;
 
+import com.reminder.penshop.upload.model.dto.AttachmentDTO;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
 
 
 @Data
@@ -22,7 +24,7 @@ public class ProductDTO {
     private Date prodEnrollDate;        //상품등록일자
     private Date prodChangeDate;	  //상품수정일자
     private char prodAvailYn;		  //상품판매여부
-   // private List<AttachmentDTO> attachmentList;
+    private List<AttachmentDTO> attachmentList;
     private CategoryDTO category;
     private BrandDTO brand;
     private OptionDTO option;
