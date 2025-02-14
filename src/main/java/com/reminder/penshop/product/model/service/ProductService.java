@@ -6,6 +6,8 @@ import com.reminder.penshop.product.model.dto.BrandDTO;
 import com.reminder.penshop.product.model.dto.CategoryDTO;
 import com.reminder.penshop.product.model.dto.OptionDTO;
 import com.reminder.penshop.product.model.dto.ProductDTO;
+import com.reminder.penshop.review.model.dto.ReviewDTO;
+import com.reminder.penshop.upload.model.dto.AttachmentDTO;
 
 import java.util.List;
 
@@ -34,9 +36,9 @@ public interface ProductService {
     int addProduct(int categoryNo, String prodName, String prodDesc, String productTag, int discountRate,
                    int prodPrice, int brandNo, String prodOrigin, String prodDetailContent);
 
-    // int attachProdThumbnail(AttachmentDTO attachment);
+    int attachProdThumbnail(AttachmentDTO attachment);
 
-    // int attachProdContentImage(AttachmentDTO attachment);
+    int attachProdContentImage(AttachmentDTO attachment);
 
     int checkCurrProdNo();
 
@@ -64,9 +66,9 @@ public interface ProductService {
 
     List<ProductDTO> getSoldOutOnly(Criteria criteria);
 
-    //AttachmentDTO getMainThumbnailByProdNo(int prodNo);
+    AttachmentDTO getMainThumbnailByProdNo(int prodNo);
 
-    //AttachmentDTO getSubThumbnailByProdNo(int prodNo);
+    AttachmentDTO getSubThumbnailByProdNo(int prodNo);
 
     List<OptionDTO> getOptionListByProdNo(int prodNo);
 
@@ -94,7 +96,7 @@ public interface ProductService {
 
     BrandDTO getBrandByProdNo(int prodNo);
 
-    // List<ReviewDTO> getReviewListByProdNo(int prodNo);
+    List<ReviewDTO> getReviewListByProdNo(int prodNo);
 
     double averageReviewRating(int prodNo);
 
