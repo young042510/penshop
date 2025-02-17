@@ -418,7 +418,7 @@
     </select>
 
     <!-- 회원가입 중 이메일 중복검사 -->
-    <select id="checkId" parameterType="String" resultType="int">
+    <select id="checkEmail" parameterType="String" resultType="int">
         SELECT
             COUNT(*)
         FROM TBL_MEMBER
@@ -475,7 +475,7 @@
     </update>
 
     <!-- 로그인 실패 횟수 증가 -->
-    <update id="updateLastestLoginDate">
+    <update id="updateLoginFailedCount">
         UPDATE
             TBL_MEMBER
         SET LOGIN_FAILED_COUNT = LOGIN_FAILED_COUNT+1
