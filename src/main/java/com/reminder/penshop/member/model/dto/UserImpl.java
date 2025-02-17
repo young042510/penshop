@@ -6,8 +6,8 @@ import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
+import java.sql.Date;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 /* 메소드 통해 값을 꺼내거나 출력해서 확인할 용도로 Getter, ToString 선언 */
