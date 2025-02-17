@@ -1,0 +1,312 @@
+@charset "UTF-8";
+/* 타이틀 */
+.title-wrapper {
+    display: flex;
+    height: 190px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.title-wrapper h2 {
+    top: 50%;
+    left: 50%;
+}
+
+/* 본문 */
+.signin-wrapper {
+    width: 580px !important;
+}
+
+.signin-wrapper > form > .inputBox {
+    display: flexbox;
+    width: 100%;
+    border-top: 3px solid #000;
+    margin-top: 40px;
+}
+
+.signin-wrapper > form > .inputBox > .required label {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.signin-wrapper > form > .inputBox > .form-floating {
+    position: relative;
+    display: flex;
+    margin: 14px auto;
+    padding-left: 0;
+}
+
+.signin-wrapper > form > .inputBox > .form-floating > .form-control:focus~label,
+.signin-wrapper > form > .inputBox > .form-floating > .form-control:not(:placeholder-shown)~label {
+    opacity: 1 !important;
+    color: #00008b !important;
+}
+
+.signin-wrapper > form > .inputBox > .required input {
+    width: 100%;
+    height: 44px;
+    align-items: center;
+}
+
+.signin-wrapper > form > .inputBox > .required > input[type="text"],
+.signin-wrapper > form > .inputBox > .required > input[type="password"] {
+    border: 0;
+    border-radius: 0;
+    border-bottom: 1px solid #ced4da;
+    width: 100%;
+    height: 100%;
+    font-size: 16px;
+    color: #6c757d;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 6px 0;
+}
+
+.signin-wrapper > form > .inputBox > .required > input[type="text"]:focus, input[type="password"]:focus {
+    box-shadow: none;
+    border-bottom: 1px solid #00008b;
+}
+
+.signin-wrapper > form > .inputBox > .required > input::placeholder {
+    opacity: 0;
+}
+
+.signin-wrapper > form > .inputBox > .required > .visibility {
+    display: inline-block;
+    position: absolute;
+    background-color: transparent;
+    border: 0;
+    top: calc(50% - 8%);
+    right: 1%;
+}
+
+/* 버튼 */
+.signin-wrapper > form > .buttonBox {
+    display: flex;
+    margin-block-end: 10%;
+}
+
+.signin-wrapper > form > .buttonBox > button[type="submit"] {
+    width: 70%;
+    height: 44px;
+    box-shadow: none !important;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-inline-end: 12px;
+}
+
+.signin-wrapper > form > .buttonBox > .btn-dark:hover {
+	opacity: 93%;
+}
+
+/* 체크박스 */
+.signin-wrapper > form > .buttonBox > .remember-wrapper {
+    display: inline-block;
+    width: 100%;
+}
+
+.signin-wrapper > form > .buttonBox > .remember-wrapper > label > input[type="checkbox"] {
+    transform : scale(1.5);
+    cursor: pointer;
+}
+
+.signin-wrapper > form > .buttonBox > .remember-wrapper > label > input[type="checkbox"]:checked {
+	accent-color: black;
+}
+
+.signin-wrapper > form > .buttonBox > .remember-wrapper > .label-checkbox {
+    top: 50%;
+    margin-block-start: 12px;
+    margin-block-end: 12px;
+    margin-inline-start: 12px;
+    margin-inline-end: 12px;
+}
+
+.signin-wrapper > form > .buttonBox > .remember-wrapper > .label-checkbox span {
+    font-size: medium;
+    font-weight: bold;
+    margin-inline-start: 8px;
+}
+
+/* 링크 */
+.signin-wrapper > form > .cut-in-title {
+    display: flex;
+	flex-basis: 100%;
+	align-items: center;
+	color: #6c757d;
+	font-size: 14px;
+    margin-block-end: 2%;
+}
+
+.signin-wrapper > form > .cut-in-title::before,
+.signin-wrapper > form > .cut-in-title::after {
+	content: "";
+	flex-grow: 1;
+	background: #ced4da;
+	height: 1px;
+	font-size: 0px;
+	line-height: 0px;
+    margin-inline-end: 25px;
+    margin-inline-start: 25px;
+}
+
+.signin-wrapper > form > .linkBox > .link-list {
+    display: flex;
+    list-style: none;
+    justify-content: center;
+    padding-inline-start: 10%;
+    padding-inline-end: 10%;
+    margin: 0 auto;
+    width: 400px;
+}
+
+.signin-wrapper > form > .linkBox > .link-list li {
+    display: list-item;
+    width: 100%;
+}
+
+.signin-wrapper > form > .linkBox > .link-list > span {
+    content: "";
+    width: 1px;
+    height: 8px;
+    background-color: #ced4da;
+    margin-block-start: 2%;
+}
+
+/* NEED HELP */
+.signin-wrapper > form > .linkBox > .link-list > .link > a {
+    display: block;
+    color: #000;
+    text-decoration: none;
+    font-size: small;
+    text-align: center;
+}
+
+.signin-wrapper > form > .linkBox > .link-list > .link > a:hover {
+    color: #00008b;
+}
+
+/* ======================================= */
+
+.forgotIdPwd-wrapper {
+	width: 700px;
+}
+
+#forgotIdPwdTab {
+	border-bottom: 0;
+	width: 100%;
+	height: 44px;
+	margin-top: 40px;
+}
+
+#forgotIdPwdTab > li {
+	width: 50%;
+	height: 100%;
+}
+
+#forgotIdPwdTab > .nav-item > .nav-link {
+	border-bottom: 2px solid #000;
+	color: #E5E5E5;
+}
+
+#forgotIdPwdTab > .nav-item > .nav-link.active {
+	border: 0;
+	border-radius: 0;
+	border-bottom: 2px solid #000;
+	background-color: #000;
+	color: #fff;
+}
+
+#forgotIdPwdTab > li > button {
+	width: 100%;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 0 auto;
+	border: 0;
+	background-color: transparent;
+	vertical-align: middle;
+}
+
+.forgotIdPwd-wrapper > .tab-content {
+	margin-top: 40px;
+}
+
+.forgotIdPwd-wrapper > .tab-content > div > .find-note {
+	padding: 30px 30px 16px 30px;
+	border: 1px solid #E5E5E5;
+	margin-bottom: 40px;
+}
+
+.forgotIdPwd-wrapper > .tab-content > div > .find-note > ul {
+	padding-left: 0;
+}
+
+.forgotIdPwd-wrapper > .tab-content > div > .find-note > ul > li {
+	position: relative;
+    padding-left: 10px;
+    font-size: 14px;
+    list-style: none;
+}
+
+.forgotIdPwd-wrapper > .tab-content > div > .find-note > ul > li:before {
+    position: absolute;
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    bottom: 9px;
+    left: 0;
+	content: "";
+    background-color: #000;
+}
+
+.forgotIdPwd-wrapper > .tab-content > .tab-pane > .find-form {
+	text-align: center;
+}
+
+.forgotIdPwd-wrapper > .tab-content > .tab-pane > .find-form > div > label {
+	width: 90px;
+	font-weight: bold;
+	text-align: left;
+}
+
+.forgotIdPwd-wrapper > .tab-content > .tab-pane > .find-form > div > label:last-child {
+	display: block;
+}
+
+.forgotIdPwd-wrapper > .tab-content > .tab-pane > .find-form > div > input[type="text"],
+.forgotIdPwd-wrapper > .tab-content > .tab-pane > .find-form > div > input[type="email"],
+.forgotIdPwd-wrapper > .tab-content > .tab-pane > .find-form > div > input[type="password"] {
+    border: 1px solid #E5E5E5;
+    width: 300px;
+    height: 44px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 10px;
+}
+
+.forgotIdPwd-wrapper > .tab-content > .tab-pane > .find-form > .buttonBox {
+	margin-block-start: 10%;
+    margin-block-end: 20%;
+    margin-inline-start: 20%;
+    margin-inline-end: 20%;
+}
+
+.forgotIdPwd-wrapper > .tab-content > .tab-pane > .find-form > div > button[type="submit"] {
+	width: 100%;
+    height: 44px;
+    border-radius: 0;
+    box-shadow: none !important;
+    cursor: pointer;
+}
+
+/* 전체 폰트 적용 */
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+h2 {
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 48px !important;
+    font-weight: 400 !important;
+}
