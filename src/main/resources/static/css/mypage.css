@@ -1,0 +1,870 @@
+@charset "UTF-8";
+/* 타이틀 */
+.title-wrapper {
+    display: flex;
+    height: 190px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.title-wrapper h2 {
+    top: 50%;
+    left: 50%;
+}
+
+/* 카드 */
+.browsing-history {
+	margin-bottom: 60px;
+}
+
+.browsing-history > .recently-viewed > .noitemViewed {
+	color: #E5E5E5;
+    text-align: center;
+    margin-top: 150px;
+    margin-bottom: 300px !important;
+}
+
+.browsing-history > .recently-viewed > .noitemViewed > div {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card {
+    border: 0;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-img-wrapper > .card-img-top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    transform: scale(1);
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    -ms-transform: scale(1);
+    -o-transform: scale(1);
+    transition: all 0.3s ease-in-out;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-img-wrapper > .card-img-top:hover {
+    transform: scale(1.2);
+    -webkit-transform: scale(1.2);
+    -moz-transform: scale(1.2);
+    -ms-transform: scale(1.2);
+    -o-transform: scale(1.2);
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-img-wrapper {
+    overflow: hidden;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card a {
+    color: #000;
+    text-decoration: none;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body {
+	display: inline-flex;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-left > b,
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-left > span > b {
+	color: #00008b;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-left > .price {
+	color: #000;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-left > del {
+	font-size: 14px;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-left > h6 {
+	display: inline-block;
+	width: 180px;
+	max-width: 180px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+    margin-top: 3px;
+    margin-bottom: 6px;
+    vertical-align: middle;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-left > small {
+	color: #6c757d;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-left > span {
+	display: block;
+	color: #000;
+	font-size: 0.85rem;
+	margin-top: 10px;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-right > i {
+	font-size: 20px;
+}
+
+.browsing-history > .recently-viewed > .container > .row > .col > .card > a > .card-body > .text-right > .fa-heart:hover {
+	color: #ff0000;
+}
+
+/* 본문 */
+.info-area ul {
+    display: flex;
+    position: relative;
+    width: 100%;
+	height: 100%;
+    align-items: center;
+    margin: 14px auto;
+    padding-inline-start: 0;
+    margin-block-end: 0;
+}
+
+.info-area ul > li {
+	list-style: none;
+}
+
+.info-area {
+	display: table;
+	width: 100%;
+	height: 110px;
+	table-layout: fixed;
+	border: 1px solid #dee2e6;
+	border-top: 2px solid #000;
+	margin-top: 40px;
+	margin-bottom: 40px;
+	cursor: default;
+}
+
+.info-title {
+	display: table-cell;
+	width: 320px;
+	font-size: 22px;
+	font-weight: 700;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.welcome {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}
+
+.welcome > h4 {
+	margin-bottom: 0;
+}
+
+#profile {
+	display: inline-block;
+	width: 80px;
+	height: 80px;
+	background-color: #f9f9f9;
+	border-radius: 50%;
+	border: 1px solid #E5E5E5;
+	font-size: 36px;
+	color: #6c757d;
+	margin-inline-end: 12px;
+	cursor: pointer;
+}
+
+#profile > a {
+	text-align: center;
+	vertical-align: middle;
+}
+
+.info-list {
+	display: table-cell;
+	width: 70%;
+	padding: 24px 0;
+	border-left: 1px solid #E5E5E5;
+	text-align: center;
+}
+
+.info-list > ul {
+	display: contents !important;
+}
+
+.info-list > ul > li {
+	position: relative;
+	float: left;
+	width: 33%;
+}
+
+.info-list > ul > li > a {
+	font-size: 14px;
+	cursor: pointer;
+}
+
+.info-list > ul > li > a > b {
+	font-size: 32px;
+}
+
+.info-list > ul > li:after {
+	position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 1px;
+    height: 100%;
+    min-height: 20px;
+    background-color: #E5E5E5;
+    content: '';
+}
+
+.info-list > ul > li:nth-child(3):after {
+	display: none;
+}
+
+/* 마이페이지 메뉴 */
+.row {
+	--bs-gutter-x: 0 !important;
+}
+
+.mypage-nav {
+    margin-bottom: 40px;
+    border-top: 1px solid #6c757d;
+    background-color: #fff;
+    padding-left: 0;
+}
+
+.mypage-nav > ul > li {
+	height: 50px;
+    border-bottom: 1px solid #E5E5E5;
+}
+
+.mypage-nav > ul > li > a {
+	color: #000;
+	height: 100%;
+	line-height: 32px;
+	text-decoration: none !important;
+}
+
+.mypage-nav > ul > li > a:hover {
+	color: #000;
+	font-weight: bold;
+}
+
+.mypage-nav > ul > li > .active {
+	color: #00008b !important;
+	font-weight: bold !important;
+	background-color: #f9f9f9 !important;
+}
+
+/* 마이페이지 브레드크럼 */
+.mypage-breadcrumb {
+    font-size: 12px;
+    float: right;
+    cursor: default;
+}
+
+.mypage-breadcrumb > ol > li > a {
+    color: #000;
+    text-decoration: none;
+}
+
+.mypage-breadcrumb > ol > li > a:hover {
+	color: #00008b;
+}
+
+/* 메인 */
+.mypage-area {
+	margin-left: 58px;
+	margin-bottom: 80px;
+}
+
+.mypage-area > .latest-orders {
+    height: 140px;
+	padding: 30px 30px 20px 30px;
+    border: 1px solid #E5E5E5;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.mypage-area > .latest-orders > ul {
+	display: contents !important;
+	position: relative;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    margin: 14px auto;
+    padding-inline-start: 0;
+    margin-block-end: 0;
+}
+
+.mypage-area > .latest-orders > ul > li {
+    position: relative;
+    float: left;
+    width: 20%;
+    list-style: none;
+}
+
+.mypage-area > .latest-orders > ul > li:not(:last-child):after {
+    position: absolute;
+    right: 0;
+    font: var(--fa-font-solid);
+    content: "\f105";
+    font-size: 140%;
+    color: #6c757d;
+    line-height: 20px;
+}
+
+.mypage-area > .latest-orders > ul > li > a {
+	text-decoration: none;
+	font-size: 14px;
+	color: #b7b7b7;
+    cursor: pointer;
+}
+
+.mypage-area > .latest-orders > ul > li > a:hover {
+	color: #000;
+}
+
+.mypage-area > .latest-orders > ul > li > a > b {
+	font-size: 32px;
+}
+
+.dataTable-table {
+	--bs-table-striped-bg: rgba(0, 0, 0, 0.03) !important;
+}
+
+.review-notice {
+	padding-left: 0;
+}
+
+.review-notice > li {
+	position: relative;
+    padding-left: 10px;
+    font-size: 14px;
+    list-style: none;
+}
+
+.review-notice > li:before {
+    position: absolute;
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    bottom: 10px;
+    left: 0;
+	content: "";
+    background-color: #000;
+}
+
+#reviewTab {
+	border-bottom: 0;
+	width: 100%;
+	height: 44px;
+}
+
+#reviewTab > li {
+	width: 50%;
+	height: 100%;
+}
+
+#reviewTab > .nav-item > .nav-link {
+	border-bottom: 2px solid #000;
+	color: #E5E5E5;
+}
+
+#reviewTab > .nav-item > .nav-link.active {
+	border: 0;
+	border-radius: 0;
+	border-bottom: 2px solid #000;
+	background-color: #000;
+	color: #fff;
+}
+
+#reviewTab > li > button {
+	width: 100%;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 0 auto;
+	border: 0;
+	background-color: transparent;
+	vertical-align: middle;
+}
+
+.review-detail {
+	margin-bottom: 0 !important;
+}
+
+.review-detail > a {
+	font-weight: bold;
+    color: #000;
+    text-decoration: none;
+	display: inline-block;
+	max-width: 300px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.review-detail > a:hover {
+	opacity: 93%;
+}
+
+.modal-content {
+	padding: 10px 40px 20px;
+}
+
+.modal-footer {
+	border-top: 0;
+	justify-content: center;
+}
+
+.modal-footer > button {
+	width: 120px;
+	height: 44px;
+	box-shadow: none !important;
+}
+
+.modal-body {
+	max-height: 400px;
+	padding-bottom: 0;
+}
+
+.orderdetail-container {
+	margin-top: 30px;
+}
+
+.orderdetail-container > fieldset {
+	position: relative;
+}
+
+.orderdetail-container > fieldset > legend {
+	display: contents;
+    height: 44px;
+    align-items: center;
+    padding-inline-start: 0;
+    margin-block-end: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.orderdetail-container > table {
+	width: 100%;
+    border-top: 2px solid #000;
+    border-bottom: 1px solid #E5E5E5;
+    margin-top: 5px;
+    margin-bottom: 40px;
+}
+
+.orderdetail-container > table > tbody > tr > td {
+	padding: 5px 0;
+    height: 44px;
+}
+
+.orderdetail-container > table > tbody > tr > td > p {
+	color: #6c757d;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 0 !important;
+}
+
+.orderdetail-container > table > tbody > tr > td > input[type="text"] {
+	display: block;
+    border: 1px solid #E5E5E5;
+    width: 100%;
+    height: 44px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.orderdetail-container > table > tbody > tr > td > input:read-only {
+	background-color: #f9f9f9;
+    cursor: default;
+}
+
+.orderDetailCard {
+	cursor: default;
+}
+
+.orderDetailCard > div.card-body > span:not(:last-child) {
+	padding-right: 26px;
+	margin-inline-end: 26px;
+	color: #6c757d;
+	border-right: 1px #E5E5E5 solid;
+}
+
+.orderDetailCard > div.card-body > span:last-child {
+	color: #00008b;
+}
+
+/* 옵션 */
+.option-area > p {
+	color: #6c757d;
+	font-size: 14px;
+	text-align: center;
+	vertical-align: middle;
+	margin-bottom: 0 !important;
+}
+
+/* 출력 글자수 제한 */
+.option-area > p > span {
+	display: inline-block;
+	max-width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.wishlist-table > tbody > tr > td > .buttonBox,
+.orderlist-table > tbody > tr > td > .buttonBox,
+.reviewlist-table > tbody > tr > td > .buttonBox {
+	margin-block-start: 0;
+	margin-block-end: 0;
+	margin-inline-start: 0;
+	margin-inline-end: 0;
+}
+
+.wishlist-table > tbody > tr > td > .buttonBox > button,
+.orderlist-table > tbody > tr > td > .buttonBox > button,
+.reviewlist-table > tbody > tr > td > .buttonBox > button {
+	width: auto;
+    height: 33px !important;
+    box-shadow: none !important;
+    border: 1px solid #E5E5E5;
+	border-radius: 0 !important;
+}
+
+.orderlist-table > tbody > tr > td > .buttonBox > button,
+.reviewlist-table > tbody > tr > td > .buttonBox > button {
+	width: 93px;
+}
+
+.wishlist-table > tbody > tr > td > .buttonBox > .cartBtn, .deleteBtn {
+	color: #000;
+	background-color: #fff;
+	border-color: #E5E5E5 !important;
+	margin-top: 0 !important;
+}
+
+.orderlist-table > tbody > tr > td > .buttonBox > .detailBtn {
+	color: #000;
+	background-color: #fff;
+	border-color: #E5E5E5 !important;
+	margin-top: 4px !important;
+}
+
+.orderlist-table > tbody > tr > .delivery-area > p {
+    color: #6c757d;
+    font-size: 14px;
+    text-align: center;
+    vertical-align: middle;
+    margin-bottom: 0 !important;
+}
+
+/* 선택삭제 */
+.button-area {
+	padding-left: 16px;
+}
+
+.button-area input[type="checkbox"] {
+	margin-inline-end: 12px;
+}
+
+.button-area button {
+	width: auto;
+    box-shadow: none !important;
+    margin-top: auto;
+    margin-bottom: auto;
+	margin-inline-end: 5px;
+    border-radius: 0;
+	border: 1px solid #E5E5E5;
+}
+
+.button-wish:hover, .button-delete:hover {
+	background-color: #f9f9f9;
+}
+
+/* 리스트 항목 없음 */
+.noitem div {
+	color: #6c757d;
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+/* 정보 수정 */
+.changeInfo-form > table {
+	width: 100%;
+    border-top: 2px solid #000;
+    border-bottom: 1px solid #E5E5E5;
+    margin-bottom: 40px;
+}
+
+.changeInfo-form > table > tbody > tr {
+	width: 100%;
+}
+
+.changeInfo-form > table > tbody > tr > th {
+	text-align: inherit;
+}
+
+.changeInfo-form > table > tbody > tr > td {
+	padding: 5px 0;	
+}
+
+.changeInfo-form > table > tbody > tr > td > input {
+	width: 36%;
+}
+
+.changeInfo-form > table > tbody > tr:nth-child(1) th,
+.changeInfo-form > table > tbody > tr:nth-child(1) td,
+.changeInfo-form > table > tbody > tr:nth-child(3) th,
+.changeInfo-form > table > tbody > tr:nth-child(3) td,
+.changeInfo-form > table > tbody > tr:nth-child(5) th,
+.changeInfo-form > table > tbody > tr:nth-child(5) td {
+	padding-top: 20px;
+}
+
+.changeInfo-form > table > tbody > tr:nth-child(2) th,
+.changeInfo-form > table > tbody > tr:nth-child(2) td,
+.changeInfo-form > table > tbody > tr:nth-child(4) th,
+.changeInfo-form > table > tbody > tr:nth-child(4) td,
+.changeInfo-form > table > tbody > tr:nth-child(11) th,
+.changeInfo-form > table > tbody > tr:nth-child(11) td {
+	padding-bottom: 20px;
+}
+
+.changeInfo-form > table > tbody > tr > td > input[type="text"],
+.changeInfo-form > table > tbody > tr > td > input[type="password"],
+.changeInfo-form > table > tbody > tr > td > div > input[type="password"],
+.changeInfo-form > table > tbody > tr > td > div > input[type="email"],
+.changeInfo-form > table > tbody > tr > td > div > input[type="text"] {
+    display: block;
+    border: 1px solid #E5E5E5;
+    width: 300px;
+    height: 44px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.changeInfo-form > table > tbody > tr > td > div > input[type="email"] {
+	width: 100%;
+}
+
+.changeInfo-form > table > tbody > tr > td > div > input[type="radio"] {
+	accent-color: #000;
+	transform: scale(1.2);
+}
+
+.changeInfo-form > table > tbody > tr > td > input:read-only {
+	background-color: #f9f9f9;
+	cursor: default;
+}
+
+.changeInfo-form > table > tbody > tr:nth-child(3) {
+	position: relative;
+}
+
+.changeInfo-form > table > tbody > tr:nth-child(3) th > b {
+	position: absolute;
+	color: #ff0000;
+	margin-top: 4px;
+	margin-inline-start: 6px;
+}
+
+.changeInfo-form > table > tbody > tr > td > .pwd-info,
+.changeInfo-form > table > tbody > tr > td > .phone-info,
+.changeInfo-form > table > tbody > tr > td > .email-info,
+.changeInfo-form > table > tbody > tr > td > .address-info,
+.changeInfo-form > table > tbody > tr > td > .authentication,
+.changeInfo-form > table > tbody > tr > td > .agreement-yn {
+	display: flex;
+	width: 100%;
+}
+
+.changeInfo-form > table > tbody > tr > td > .email-info,
+.changeInfo-form > table > tbody > tr > td > .address-info,
+.changeInfo-form > table > tbody > tr > td > .address-detail,
+.changeInfo-form > table > tbody > tr > td > .authentication {
+	width: 100%;
+	height: 100%;
+}
+
+.changeInfo-form > table > tbody > tr > td > .pwd-info > span {
+	width: 140px;
+	font-weight: bold;
+	margin: auto 0;
+	margin-inline-start: 22px;
+}
+
+.changeInfo-form > table > tbody > tr > td > .pwd-info > input[type="password"] {
+	width: 360px;
+}
+
+.changeInfo-form > table > tbody > tr > td > .agreement-yn > input {
+	margin-inline-end: 6px;
+}
+
+.changeInfo-form > table > tbody > tr > td > .agreement-yn > label {
+	width: max-content;
+	margin-inline-end: 34px;
+}
+
+.changeInfo-form > table > tbody > tr > td > div > .verifyBtn,
+.changeInfo-form > table > tbody > tr > td > div > .submitNumberBtn,
+.changeInfo-form > table > tbody > tr > td > div > .submitCodeBtn {
+	width: 204px;
+    height: 44px;
+    margin-inline-start: 10px;
+	background-color: #fff;
+    border: 1px solid #E5E5E5;
+    color: #b7b7b7;
+    cursor: pointer;
+}
+
+.changeInfo-form > table > tbody > tr > td > div > .submitNumberBtn,
+.changeInfo-form > table > tbody > tr > td > div > .submitCodeBtn {
+	width: 18% !important;
+}
+
+.changeInfo-form > table > tbody > tr > td > .authentication > input[type=button],
+.changeInfo-form > table > tbody > tr > td > .address-info > input[type=button] {
+	box-shadow: none !important;
+}
+
+.changeInfo-form > table > tbody > tr > td > .phone-info > input[type="text"] {
+	width: 31.8%;
+}
+
+.changeInfo-form > table > tbody > tr > td > .phone-info > input[name="phoneB"] {
+	margin: 0;
+	margin-inline-start: 10px;
+	margin-inline-end: 10px;
+}
+
+.changeInfo-form > table > tbody > tr > td > .address-info > input[name="postalCode"] {
+	width: 22%;
+	margin: 0;
+	margin-inline-start: 10px;
+	margin-inline-end: 10px;
+}
+
+.changeInfo-form > table > tbody > tr > td > .address-info > input[name="address"] {
+	margin: 0;
+	width: 100%;
+}
+
+.changeInfo-form > table > tbody > tr > td > .address-detail > input[name="detailAddress"] {
+	width: 100%;
+}
+
+.changeInfo-form > table > tbody > tr > td > input[name="detailAddress"] {
+	width: 100% !important;
+}
+
+.changeInfo-form > .changeInfo {
+	margin-top: 80px;
+    margin-bottom: 160px;
+    text-align: center;
+}
+
+.changeInfo-form > .changeInfo > button[type="button"], button[type="submit"] {
+	width: 30%;
+    height: 44px;
+    border-radius: 0;
+    box-shadow: none !important;
+    cursor: pointer;
+}
+
+.changeInfo-form > .changeInfo > button[type="button"]:first-child {
+	margin-inline-end: 10px;
+}
+
+.changeInfo-form > .changeInfo > .cancelBtn {
+    color: #000;
+    border-color: #6c757d;
+}
+.changeInfo-form > .changeInfo > .cancelBtn:hover {
+	background-color: #f9f9f9;
+}
+
+/* 회원 탈퇴 */
+.mypage-area > .close-note {
+	padding: 30px 30px 20px 30px;
+	border: 1px solid #E5E5E5;
+	margin-bottom: 40px;
+}
+
+.mypage-area > .close-note > ul {
+	padding-left: 0;
+}
+
+.mypage-area > .close-note > ul > li {
+	position: relative;
+    padding-left: 10px;
+    font-size: 14px;
+    list-style: none;
+}
+
+.mypage-area > .close-note > ul > li:before {
+    position: absolute;
+    display: inline-block;
+    width: 2px;
+    height: 2px;
+    bottom: 10px;
+    left: 0;
+	content: "";
+    background-color: #000;
+}
+
+.mypage-area > .close-form {
+	text-align: center;
+}
+
+.mypage-area > .close-form > div > label {
+	width: 90px;
+	font-weight: bold;
+	text-align: left;
+}
+.mypage-area > .close-form > div > label:last-child {
+	display: block;
+}
+
+.mypage-area > .close-form > div > input[type="text"],
+.mypage-area > .close-form > div > input[type="password"] {
+    border: 1px solid #E5E5E5;
+    width: 300px;
+    height: 44px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 10px;
+}
+
+.mypage-area > .close-form > div:first-child > input:read-only  {
+	background-color: #f9f9f9;
+    cursor: default;
+}
+
+.mypage-area > .close-form > .closeAccount > div:first-child {
+	margin: 20px 0 40px 0;
+}
+
+.mypage-area > .close-form > .closeAccount > div > label {
+    font-weight: bold;
+    margin-inline-start: 4px;
+}
+
+.mypage-area > .close-form > .closeAccount > div > input[type="checkbox"] {
+	accent-color: black;
+	transform: scale(1.2);
+}
+
+.mypage-area > .close-form > .closeAccount > .closeBtn {
+	margin-bottom: 60px;
+}
+
+/* 전체 폰트 적용 */
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+h2 {
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 48px !important;
+    font-weight: 400 !important;
+}
