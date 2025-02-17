@@ -31,9 +31,11 @@ dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-validation"
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'net.coobird:thumbnailator:0.4.17'
+	implementation 'commons-io:commons-io:2.11.0'
 
-	// Thymeleaf Extras (Spring Security 6 지원)
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	// Thymeleaf Layout Dialect
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:3.2.0'
 
 	// MyBatis (최신 버전으로 변경)
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.4'
@@ -47,6 +49,10 @@ dependencies {
 
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	// Gson 라이브러리 의존성 추가 (JSON 데이터를 직렬화 및 역직렬화하는 데 사용)
+	implementation 'com.google.code.gson:gson:2.10.1'
+
 
 	// 테스트 관련
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
