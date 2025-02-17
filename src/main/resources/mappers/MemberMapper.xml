@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.reminder.penshop.member.model.dao.MemberMapper">
+
     <!-- 회원 조회용 -->
     <resultMap id="memberResultMap" type="com.reminder.penshop.member.model.dto.MemberDTO">
         <id property="memberId" column="MEMBER_ID"/>
@@ -191,8 +192,7 @@
         <collection property="attachmentList" resultMap="thumbnailResultMap"/>
     </resultMap>
 
-    <!-- 아이디/비밀번호 찾기 -->
-    <select id="findMemberById" resultMap="memberResultmap">
+    <select id="findMemberById" resultMap="memberResultMap">
         SELECT
         A.MEMBER_ID
         , A.MEMBER_PWD
@@ -221,7 +221,6 @@
         WHERE A.MEMBER_ID = #{ username }
     </select>
 
-    <!-- 아이디/비밀번호 찾기 - 이메일 체크 -->
     <select id="findMemberByEmail" resultMap="memberResultMap">
         SELECT
         A.MEMBER_ID
@@ -299,6 +298,7 @@
         , DEFAULT
         )
     </insert>
+
     <insert id="insertRole">
         INSERT
         INTO TBL_ROLE
@@ -368,8 +368,8 @@
         WHERE EMAIL = #{ email }
     </update>
 
-    <!-- 본인 인증여부 조회 -->
-    <select id="checkIsAuthenticated" resultMap="java.lang.Character">
+    <!-- 휴대폰 본인인증 여부 조회 -->
+    <select id="checkIsAuthenticated" resultType="java.lang.Character">
         SELECT
             AUTH_PHONE_YN
         FROM TBL_AUTHENTICATION
@@ -390,13 +390,13 @@
         SELECT
             SUBSTR(MEMBER_ID, 1, 4) || RPAD('*', LENGTH(MEMBER_ID)-4, '*') MEMBER_ID
              , ACC_CREATION_DATE
-            FROM TBL_MEMBER
+        FROM TBL_MEMBER
         WHERE ACC_CLOSING_YN = 'N'
-            ADD NAME = #{ name }
-            ADD EMAIL = #{ email }
+          AND NAME = #{ name }
+          AND EMAIL = #{ email }
     </select>
 
-    <!-- 비밀번호 찾기 *임시 비밀번호 저장, 현재 활동 중인 회원에 한함 -->
+    <!-- 비밀번호 찾기 *임시 비밀번호 저장, 현재 활동 중인 회원에 한함* -->
     <update id="generateTempPwd">
         UPDATE
             TBL_MEMBER
@@ -412,24 +412,24 @@
     <!-- 회원가입 중 아이디 중복 검사 -->
     <select id="checkId" parameterType="String" resultType="int">
         SELECT
-                COUNT(*)
-            FROM TBL_MEMBER
-            WHERE MEMBER_ID = #{ memberId }
+            COUNT(*)
+        FROM TBL_MEMBER
+        WHERE MEMBER_ID = #{ memberId }
     </select>
 
-    <!-- 회원가입 중 이메일 중복검사 -->
+    <!-- 회원가입 중 이메일 중복 검사 -->
     <select id="checkEmail" parameterType="String" resultType="int">
         SELECT
             COUNT(*)
         FROM TBL_MEMBER
-        WHERE EMAIAL = #{ email }
+        WHERE EMAIL = #{ email }
     </select>
 
-    <!-- 회원가입 중 이메일 인증 후 계정 활성화 -->
-    <update id="updateAccActiveation">
+    <!-- 회원가입 완료 시 이메일 인증 후 계정 활성화 -->
+    <update id="updateAccActivation">
         UPDATE
-                TBL_MEMBER
-            SET ACC_INACTIVE_YN = 'N'
+            TBL_MEMBER
+        SET ACC_INACTIVE_YN = 'N'
         WHERE MEMBER_ID = #{ memberId }
     </update>
 
@@ -448,7 +448,7 @@
         WHERE MEMBER_ID = #{ memberId }
     </update>
 
-    <!-- 로그인 성공 누적 횟수 -->
+    <!-- 로그인 성공 횟수 누적 -->
     <update id="updateAccumLoginCount">
         UPDATE
             TBL_MEMBER
@@ -459,7 +459,7 @@
     </update>
 
     <!-- 로그인 성공 시 최근 로그인 일시 업데이트 -->
-    <update id="updateLastestLoginDate">
+    <update id="updateLatestLoginDate">
         UPDATE
             TBL_MEMBER
         SET LATEST_LOGIN_DATE = SYSDATE
@@ -497,7 +497,6 @@
         SET ACC_INACTIVE_YN = 'Y'
         WHERE MEMBER_ID = #{ username }
     </update>
-
 
     <select id="getMemberDetails" resultMap="memberResultMap">
         SELECT
