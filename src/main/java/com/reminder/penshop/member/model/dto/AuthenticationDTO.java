@@ -2,7 +2,8 @@ package com.reminder.penshop.member.model.dto;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.sql.Date;
+
 
 @Data
 public class AuthenticationDTO {
