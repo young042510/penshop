@@ -6,9 +6,9 @@ import com.reminder.penshop.member.model.service.RedisService;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
@@ -89,12 +89,11 @@ public class MailService {
         sendEmail(mailDTO);
     }
 
-    public String verificationEmail(String key) throws ChangeSetPersister.NotFoundException {
+    public String verificationEmail(String key) throws NotFoundException {
         String memberToken = redisService.getKey(key);
         if(memberToken == null) redisService.deleteKey(key);
         return memberToken;
     }
-
     /**
      * '비밀번호 찾기' 요청에 의한 임시 비밀번호 전송
      * @return 12-digit password
