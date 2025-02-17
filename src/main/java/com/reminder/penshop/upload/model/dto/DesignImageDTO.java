@@ -1,7 +1,9 @@
 package com.reminder.penshop.upload.model.dto;
 
 import com.reminder.penshop.product.model.dto.ProductDTO;
+import lombok.Data;
 
+@Data
 public class DesignImageDTO {
 
     private int designImageNo;              //디자인이미지번호
