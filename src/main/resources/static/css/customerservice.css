@@ -1,0 +1,343 @@
+@charset "UTF-8";
+
+/* 타이틀 */
+.title-wrapper {
+    display: flex;
+    height: 190px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+}
+
+.title-wrapper h2 {
+    top: 50%;
+    left: 50%;
+}
+
+/* 탭 */
+#customerServiceTab {
+	margin-top: 40px;
+	border-bottom: 0;
+	width: 100%;
+	height: 44px;
+}
+
+#customerServiceTab > li {
+	width: 50%;
+	height: 100%;
+}
+
+#customerServiceTab > .nav-item > .nav-link {
+	border-bottom: 2px solid #000;
+	color: #E5E5E5;
+}
+
+#customerServiceTab > .nav-item > .nav-link.active {
+	border: 0;
+	border-radius: 0;
+	border-bottom: 2px solid #000;
+	background-color: #000;
+	color: #fff;
+}
+
+#customerServiceTab > li > button {
+	width: 100%;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 0 auto;
+	border: 0;
+	background-color: transparent;
+	vertical-align: middle;
+}
+
+/* 게시판목록페이지(고객센터 메인) */
+.board-table {
+	width: 100%;
+	margin-bottom: 16px;
+	cursor: pointer;
+}
+
+.board-table > thead > tr {
+	text-align: center;
+}
+
+.board-table > thead > tr > th {
+	border-bottom: 1px solid #E5E5E5;
+	padding: 10px 0;
+}
+
+.board-table > tbody > tr {
+	text-align: center;
+}
+
+.board-table > tbody > tr > td {
+	border-bottom: 1px solid #E5E5E5;
+	padding: 10px 0;
+}
+
+/* 게시판목록페이지 버튼(고객센터 메인) */
+.button-area button {
+    width: 7%;
+    height: 33px !important;
+    box-shadow: none !important;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-inline-end: 5px;
+    border-radius: 0 !important;
+    border: 1px solid #E5E5E5;
+}
+
+.button-area button:hover {
+	background-color: #f9f9f9;
+}
+
+/* 1:1 문의 */
+.inquiry-wrapper {
+	width: 700px !important;
+}
+
+.inquiryBox {
+	width: 100%;
+    border-top: 2px solid #000;
+    margin-top: 40px;
+}
+
+.inquiryBox > form {
+	margin-top: 8px;
+}
+
+.inquiry-form > table > tr {
+    width: 100%;
+    margin: 14px auto;
+    padding-inline-start: 0;
+    margin-block-end: 0;
+}
+
+.commentNumberBadge {
+	padding: 1px 8px 3px 8px;
+    border: 1px solid #E5E5E5;
+    background-color: #fff;
+    color: #00008d;
+    border-radius: 50px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* selector */
+.type-selector {
+	display: block;
+    width: 100%;
+    padding: 0.375rem 2.25rem 0.375rem 1.25rem;
+    -moz-padding-start: calc(0.75rem - 3px);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+input[type="text"], select {
+	display: block;
+    border: 1px solid #E5E5E5;
+    width: 100%;
+    height: 44px !important;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 6px 0;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+    cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+	accent-color: black;
+}
+
+input:read-only {
+    background: #E5E5E5;
+    cursor: default;
+}
+
+.agree-content {
+	font-size: 14px;
+}
+
+.agree-inquiry {
+	text-align: center;
+}
+
+.agree-inquiry > label span {
+    font-size: medium;
+    font-weight: bold;
+    margin-inline-start: 8px;
+}
+
+.inquiryImageBox > ul {
+	height: 158px !important;
+	margin-top: 18px;
+}
+
+.inquiryImageBox > ul:not(:first-child) {
+	margin-inline-start: 18px;
+}
+
+.inquiry-form > table > tbody > tr > td > ul > li {
+	list-style: none;
+}
+
+/* 1:1 문의 상세 */
+.inqDetail-wrapper {
+	width: 700px !important;
+	margin-top: 40px;
+	border: 1px solid #f0f0f0;
+	padding: 20px;
+}
+
+.inqDetail-wrapper > hr {
+	background-color: #f0f0f0;
+}
+
+.inquiryMainBtn, .editInquiryBtn, .deleteInquiryBtn  {
+	border: 1px solid #f0f0f0;
+	border-radius: 0;
+}
+
+.inqDetail-title {
+	font-size: 20px;
+}
+
+.inqDetail-title > span {
+	color: #6c757d;
+}
+
+.inqDetail-info, .inqDetail-attachment {
+	font-size: 14px;
+}
+
+.inqDetail-info > a {
+	color: #000;
+	text-decoration: none;
+}
+
+.inqDetail-info > a:hover {
+	text-decoration: underline;
+}
+
+.inqDetail-content {
+	margin-top: 30px;
+	margin-bottom: 100px;
+}
+
+.inqDetail-download > a {
+	color: #000;
+	text-decoration: none;
+}
+
+.inqDetail-download > span {
+	color: #6c757d;
+	font-size: 12px;
+}
+
+/* 버튼 */
+.buttonBox {
+	margin-top: 80px;
+    margin-bottom: 160px;
+    text-align: center;
+}
+
+.buttonBox > button[type="button"], button[type="submit"] {
+    width: 30%;
+    height: 44px;
+    border-radius: 0;
+    box-shadow: none !important;
+    cursor: pointer;
+}
+
+.buttonBox .cancelBtn {
+    color: #000;
+    border-color: #6c757d;
+}
+
+.buttonBox .cancelBtn:hover {
+	background-color: #f9f9f9;
+}
+
+.buttonBox .inquiryBtn {
+	margin-inline-start: 10px;
+}
+	
+.buttonBox .inquiryBtn:hover {
+	opacity: 93%;
+}
+
+.noitem div {
+    color: #6c757d;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+/* 검색 */
+.board-search-container > form {
+	display: flex;
+	padding: 40px 250px 40px 250px;
+}
+
+.board-search-container > form > select {
+	display: block;
+	width: 350px;
+    height: 46px !important;
+    margin-inline-end: 10px;
+	padding: 0.375rem 2.25rem 0.375rem 1.25rem;
+	color: #212529;
+	background-color: #fff;
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+	background-repeat: no-repeat;
+	background-position: right 0.75rem center;
+	background-size: 16px 12px;
+	border: 1px solid #E5E5E5;
+	border-radius: 0;
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+	-webkit-appearance: none;
+	   -moz-appearance: none;
+	        appearance: none;
+}
+
+.board-search-container > form > .searchBox {
+	display: flex;
+	width: 100%;
+	border: 1px solid #E5E5E5;
+	margin: 6px 10px 6px 0px;
+}
+
+.board-search-container > form > .searchBox > input[type=search] {
+	display: inline-block;
+	padding: 0.375rem 0.25rem 0.375rem 1.25rem;
+	border: 0;
+}
+
+.board-search-container > form > .searchBox > button[type=submit] {
+	display: inline-block;
+	width: 40px;
+	background: transparent;
+	border: 0;
+}
+
+/* 전체 폰트 적용 */
+* {
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+h2 {
+    font-family: 'Gowun Dodum', sans-serif;
+    font-size: 48px !important;
+    font-weight: 400 !important;
+}
