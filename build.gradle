@@ -53,6 +53,14 @@ dependencies {
 	// Gson 라이브러리 의존성 추가 (JSON 데이터를 직렬화 및 역직렬화하는 데 사용)
 	implementation 'com.google.code.gson:gson:2.10.1'
 
+	// json 라이브러리 외
+	implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
+	implementation 'commons-beanutils:commons-beanutils:1.9.4'
+	implementation 'commons-collections:commons-collections:3.2.2'
+	implementation 'commons-lang:commons-lang:2.6'
+	implementation 'commons-logging:commons-logging:1.2'
+	implementation 'net.sf.ezmorph:ezmorph:1.0.6'
+
 
 	// 테스트 관련
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
