@@ -30,7 +30,7 @@ import java.util.UUID;
 @Slf4j
 @Controller
 @RequestMapping("/member")
-@SessionAttributes("loginMember")
+@SessionAttributes({"loginMember", "penshopCart", "detailOptionNo", "detailOptionQt"})
 public class MemberController {
 
     private final MemberService memberService;
