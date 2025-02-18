@@ -4,9 +4,11 @@ import com.reminder.penshop.cart.model.dto.CartDTO;
 import com.reminder.penshop.product.model.dto.BrandDTO;
 import com.reminder.penshop.product.model.dto.OptionDTO;
 import com.reminder.penshop.product.model.dto.ProductDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service("cartService")
 public class CartServiceImpl implements CartService {
 
     private CartService cartService;
