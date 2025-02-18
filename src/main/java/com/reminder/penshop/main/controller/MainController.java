@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Slf4j
 @Controller
-@SessionAttributes({"loginMember"})
+@SessionAttributes({"loginMember", "penshopCart"})
 public class MainController {
 
     private final MainService mainService;
