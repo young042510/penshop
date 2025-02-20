@@ -61,7 +61,7 @@
 					</th:block>
 					<th:block th:if="${ postList.attachmentList[0].thumbnailPath == null }">
 					<div class="body">
-						<div id="imageNotFound"><span class="fs-4">penshop문구</span></div>
+						<div id="imageNotFound"><span class="fs-4">penshop</span></div>
 					</div>
 					</th:block>
 					<div class="body">
@@ -78,7 +78,7 @@
 							<span class="writer">[[${ postList.memberId }]]</span><br>
 							<span class="star" th:value="${ postList.revwRatings }"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></span>
 							<span class="date">[[${#dates.format(postList.revwRegDate, 'yyyy.MM.dd')}]]</span>
-							<span class="store">&#8729;&nbsp;penshop문구 구매</span>
+							<span class="store">&#8729;&nbsp;penshop 구매</span>
 						</div>
 						<div class="option">
 		    				<p>
