@@ -6,7 +6,7 @@ import com.reminder.penshop.product.model.dto.ProductDTO;
 import com.reminder.penshop.product.model.service.ProductService;
 import com.reminder.penshop.upload.model.dto.AttachmentDTO;
 import com.reminder.penshop.upload.model.dto.DesignImageDTO;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -113,3 +113,4 @@ public class MainController {
         return "redirect:/";
     }
 }
+
