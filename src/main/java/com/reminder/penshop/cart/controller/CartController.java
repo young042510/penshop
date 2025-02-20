@@ -8,8 +8,8 @@ import com.reminder.penshop.product.model.dto.BrandDTO;
 import com.reminder.penshop.product.model.dto.OptionDTO;
 import com.reminder.penshop.product.model.dto.ProductDTO;
 import com.reminder.penshop.upload.model.dto.AttachmentDTO;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -173,7 +173,7 @@ public class CartController {
 
         if(loginMember == null) { //비회원용 장바구니
             log.info("비회원용 session 장바구니 호출");
-            List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("geulbeotCart");
+            List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("penshopCart");
             for(int i=0; i < nonmemberCart.size(); i++) {
                 if(Integer.parseInt(optionNo) == nonmemberCart.get(i).getOptionNo()) {
                     nonmemberCart.get(i).setQuantity(Integer.parseInt(quantity));
@@ -192,7 +192,7 @@ public class CartController {
                     continue;
                 }
             }
-            session.setAttribute("geulbeotCart", memberCart);
+            session.setAttribute("penshopCart", memberCart);
         }
     }
 
@@ -208,7 +208,7 @@ public class CartController {
         String loginMember = (String) session.getAttribute("loginMember");
 
         if(loginMember == null) { //비회원용 장바구니
-            List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("geulbeotCart");
+            List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("penshopCart");
             log.info("비회원용 session 장바구니 호출");
             for(int j=0; j < nonmemberCart.size(); j++) {
                 if(Integer.parseInt(optionNo) == nonmemberCart.get(j).getOptionNo()) {
@@ -227,7 +227,7 @@ public class CartController {
 
         //header에 변경된 상품 개수 반영
         if(loginMember == null) {
-            List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("geulbeotCart");
+            List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("penshopCart");
             log.info("선택 상품 삭제 완료된 비회원용 session 장바구니 : {}", nonmemberCart);
             session.setAttribute("countCartItem", nonmemberCart.size());
         } else {
@@ -252,7 +252,7 @@ public class CartController {
             log.info("삭제 요청 옵션 : {}", optionNo);
 
             if(loginMember == null) { //비회원용 장바구니
-                List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("geulbeotCart");
+                List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("penshopCart");
                 log.info("비회원용 session 장바구니 호출");
                 for(int j=0; j < nonmemberCart.size(); j++) {
                     if(Integer.parseInt(optionNo) == nonmemberCart.get(j).getOptionNo()) {
@@ -272,7 +272,7 @@ public class CartController {
 
         //header에 변경된 상품 개수 반영
         if(loginMember == null) {
-            List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("geulbeotCart");
+            List<CartDTO> nonmemberCart = (List<CartDTO>) session.getAttribute("penshopCart");
             log.info("선택 상품 삭제 완료된 비회원용 session 장바구니 : {}", nonmemberCart);
             session.setAttribute("countCartItem", nonmemberCart.size());
         } else {
