@@ -63,9 +63,9 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		/* 2. 회원 장바구니 업데이트 및 불러오기 */
 		HttpSession session = request.getSession();
-		List<CartDTO> geulbeotCart = (List<CartDTO>) session.getAttribute("geulbeotCart");
-		if(geulbeotCart == null) geulbeotCart = new ArrayList<>();
-		log.info("로그인 전 session으로부터 담겨온 장바구니 size : {}", geulbeotCart.size());
+		List<CartDTO> penshopCart = (List<CartDTO>) session.getAttribute("penshopCart");
+		if(penshopCart == null) penshopCart = new ArrayList<>();
+		log.info("로그인 전 session으로부터 담겨온 장바구니 size : {}", penshopCart.size());
 
 		List<CartDTO> memberCart = cartMapper.getCurrentCart(username); //회원의 기존 장바구니 호출
 		for(CartDTO c : memberCart) {
@@ -73,8 +73,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 		}
 		log.info("회원의 기존 장바구니 size : {}", memberCart.size());
 		LoopA:
-		for(int i=0; i < geulbeotCart.size(); i++) { //session 상품 목록을 DB에 추가
-			CartDTO cartDTO = geulbeotCart.get(i);
+		for(int i=0; i < penshopCart.size(); i++) { //session 상품 목록을 DB에 추가
+			CartDTO cartDTO = penshopCart.get(i);
 			cartDTO.setMemberId(username);
 
 			if(memberCart.size() == 0) {
@@ -85,8 +85,8 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			}
 
 			for(int j=0; j < memberCart.size(); j++) {
-				if(geulbeotCart.get(i).getOptionNo() == memberCart.get(j).getOptionNo()) { //이미 담겨 있는 상품은 기존 목록에서 수량만 증가
-					int quantity = memberCart.get(j).getQuantity() + geulbeotCart.get(i).getQuantity();
+				if(penshopCart.get(i).getOptionNo() == memberCart.get(j).getOptionNo()) { //이미 담겨 있는 상품은 기존 목록에서 수량만 증가
+					int quantity = memberCart.get(j).getQuantity() + penshopCart.get(i).getQuantity();
 					cartDTO.setQuantity(quantity);
 					memberCart.get(j).setQuantity(quantity);
 					cartMapper.updateQuantityInCart(cartDTO.getMemberId(), cartDTO.getQuantity(), cartDTO.getOptionNo());
@@ -96,7 +96,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
 			memberCart.add(cartDTO);
 			cartMapper.addToCart(cartDTO);
 		}
-		session.setAttribute("geulbeotCart", memberCart);
+		session.setAttribute("penshopCart", memberCart);
 		session.setAttribute("countCartItem", memberCart.size());
 
 		/* 3-1. 로그인 상황별 이동 경로 저장 */
