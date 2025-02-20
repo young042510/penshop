@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reminder.penshop.cs.model.dao.CSMapper">
+    
+    <!-- 1:1 문의 조회용 -->
+    <resultMap id="inquiryResultMap" type="com.reminder.penshop.cs.model.dto.InquiryDTO">
+        <id property="inquiryNo" column="INQUIRY_NO"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="inquiryTitle" column="INQUIRY_TITLE"/>
+        <result property="inquiryContent" column="INQUIRY_CONTENT"/>
+        <result property="inquiryType" column="INQUIRY_TYPE"/>
+        <result property="inquiryRegDate" column="INQUIRY_REG_DATE"/>
+        <result property="inquiryChgDate" column="INQUIRY_CHG_DATE"/>
+        <result property="inquiryHits" column="INQUIRY_HITS"/>
+        <result property="inquiryAnsweredYn" column="INQUIRY_ANSWERED_YN"/>
+        <association property="attachmentList" resultMap="thumbnailResultMap"/>
+    </resultMap>
+    <!-- 썸네일 조회용 -->
+    <resultMap id="thumbnailResultMap" type="com.reminder.penshop.upload.model.dto.AttachmentDTO">
+        <id property="attachmentNo" column="ATTACHMENT_NO"/>
+        <result property="refProdNo" column="REF_PROD_NO"/>
+        <result property="refRevwNo" column="REF_REVW_NO"/>
+        <result property="refInqNo" column="REF_INQ_NO"/>
+        <result property="origFileName" column="ORIG_FILE_NAME"/>
+        <result property="saveFileName" column="SAVE_FILE_NAME"/>
+        <result property="savePath" column="SAVE_PATH"/>
+        <result property="thumbnailPath" column="THUMBNAIL_PATH"/>
+        <result property="fileType" column="FILE_TYPE"/>
+        <result property="attachStatusYn" column="ATTACH_STATUS_YN"/>
+        <association property="download" resultMap="downloadResultMap"/>
+    </resultMap>
+    <!-- 다운로드횟수 조회용 -->
+    <resultMap id="downloadResultMap" type="com.reminder.penshop.upload.model.dto.DownloadDTO">
+        <id property="attachmentNo" column="ATTACHMENT_NO"/>
+        <result property="downloadHits" column="DOWNLOAD_HITS"/>
+    </resultMap>
+
+    <!-- 고객센터 1:1 문의 등록-->
+    <insert id="writeAInquiry">
+        INSERT
+        INTO TBL_INQUIRY
+        (
+          INQUIRY_NO
+        , MEMBER_ID
+        , INQUIRY_TITLE
+        , INQUIRY_CONTENT
+        , INQUIRY_TYPE
+        , INQUIRY_REG_DATE
+        , INQUIRY_CHG_DATE
+        , INQUIRY_ANSWERED_YN
+        )
+        VALUES
+        (
+          SEQ_INQUIRY_NO.NEXTVAL
+        , #{ memberId }
+        , #{ inquiryTitle }
+        , #{ inquiryContent }
+        , #{ inquiryType }
+        , SYSDATE
+        , NULL
+        , DEFAULT
+        )
+    </insert>
+
+    <!-- 현재 문의번호 확인 -->
+    <select id="checkCurrInquiryNo" resultType="_int">
+        SELECT
+            SEQ_INQUIRY_NO.CURRVAL
+        FROM DUAL
+    </select>
+
+    <!-- 문의 첨부파일 등록 -->
+    <insert id="attachInquiryImages">
+        INSERT
+        INTO TBL_ATTACHMENT
+        (
+          ATTACHMENT_NO
+        , REF_PROD_NO
+        , REF_REVW_NO
+        , REF_INQ_NO
+        , ORIG_FILE_NAME
+        , SAVE_FILE_NAME
+        , SAVE_PATH
+        , THUMBNAIL_PATH
+        , FILE_TYPE
+        , ATTACH_STATUS_YN
+        )
+        VALUES
+            (
+              SEQ_ATTACH_NO.NEXTVAL
+            , NULL
+            , NULL
+            , #{ refInqNo }
+            , #{ origFileName }
+            , #{ saveFileName }
+            , #{ savePath }
+            , #{ thumbnailPath }
+            , #{ fileType }
+            , DEFAULT
+            )
+    </insert>
+
+    <!-- 고객센터 1:1 문의 유형/게시글/첨부파일/댓글 검색 -->
+    <sql id="inquiryPostCommentSearch">
+        <trim prefix="AND">
+            <if test="criteria.keyword != null and criteria.condition eq 'title'">A.INQUIRY_TITLE LIKE '%' || #{ criteria.keyword } || '%'</if>
+            <if test="criteria.keyword != null and criteria.condition eq 'content'">A.INQUIRY_CONTENT LIKE '%' || #{ criteria.keyword } || '%'</if>
+            <if test="criteria.keyword != null and criteria.condition eq 'writer'">A.MEMBER_ID LIKE '%' || #{ criteria.keyword } || '%'</if>
+            <if test="criteria.keyword != null and criteria.condition eq 'attachment'">B.ORIG_FILE_NAME LIKE '%' || #{ criteria.keyword } || '%'</if>
+            <if test="criteria.keyword != null and criteria.condition eq 'comment'">C.COMMENT_CONTENT LIKE '%' || #{ criteria.keyword } || '%' AND C.REF_BOARD = '문의'</if>
+            <if test="criteria.keyword != null and criteria.condition eq 'commentedBy'">C.MEMBER_ID LIKE '%' || #{ criteria.keyword } || '%' AND C.REF_BOARD = '문의'</if>
+        </trim>
+    </sql>
+
+    <sql id="inquiryTypeSearch">
+        <trim prefix="AND">
+            <if test="type != null and type neq 'all'">A.INQUIRY_TYPE LIKE '%' || #{ type } || '%'</if>
+        </trim>
+    </sql>
+
+    <!-- 고객센터 1:1 문의 목록 조회 *페이징* -->
+    <select id="getMyInquiryList" parameterType="map" resultMap="inquiryResultMap">
+        SELECT
+        *
+        FROM(
+        SELECT
+        D.RANK RK
+        , D.*
+        FROM(
+        SELECT
+        DENSE_RANK() OVER (ORDER BY A.INQUIRY_NO DESC) RANK
+        , A.INQUIRY_NO
+        , A.MEMBER_ID
+        , A.INQUIRY_TITLE
+        , A.INQUIRY_CONTENT
+        , A.INQUIRY_TYPE
+        , A.INQUIRY_REG_DATE
+        , A.INQUIRY_ANSWERED_YN
+        FROM TBL_INQUIRY A
+        LEFT JOIN TBL_ATTACHMENT B ON(A.INQUIRY_NO = B.REF_INQ_NO)
+        LEFT JOIN TBL_COMMENT C ON(A.INQUIRY_NO = C.REF_POST_NO)
+        WHERE A.INQUIRY_NO NOT IN (SELECT H.REF_POST_NO FROM TBL_TRASH H WHERE H.REF_BOARD = 'inquiry')
+        <include refid="inquiryPostCommentSearch"></include>
+        <include refid="inquiryTypeSearch"></include>
+        <if test="memberId != ''">AND A.MEMBER_ID = #{ memberId }</if>
+        ) D
+        <![CDATA[
+				 WHERE D.RANK <= #{ criteria.currentPageNo } * #{ criteria.recordsPerPage }
+				 ]]>
+        ) E
+        <![CDATA[
+		 WHERE E.RK > (#{ criteria.currentPageNo } - 1) * #{ criteria.recordsPerPage }
+		 ]]>
+    </select>
+
+    <!-- 고객센터 1:1 문의 개수 조회 *페이지메이커* -->
+    <select id="getTotalInquiryNumber" parameterType="map" resultType="_int">
+        SELECT
+        COUNT(DISTINCT A.INQUIRY_NO)
+        FROM TBL_INQUIRY A
+        LEFT JOIN TBL_ATTACHMENT B ON(A.INQUIRY_NO = B.REF_INQ_NO)
+        LEFT JOIN TBL_COMMENT C ON(A.INQUIRY_NO = C.REF_POST_NO)
+        WHERE A.INQUIRY_NO NOT IN (SELECT H.REF_POST_NO FROM TBL_TRASH H WHERE H.REF_BOARD = 'inquiry')
+        <include refid="inquiryPostCommentSearch"></include>
+        <include refid="inquiryTypeSearch"></include>
+        <if test="memberId != ''">AND A.MEMBER_ID = #{ memberId }</if>
+    </select>
+
+    <!-- 고객센터 1:1 문의 상세 내용 조회 -->
+    <select id="getInquiryDetails" resultMap="inquiryResultMap">
+        SELECT
+        A.INQUIRY_NO
+        , A.MEMBER_ID
+        , A.INQUIRY_TITLE
+        , A.INQUIRY_CONTENT
+        , A.INQUIRY_TYPE
+        , A.INQUIRY_REG_DATE
+        , A.INQUIRY_ANSWERED_YN
+        , B.ATTACHMENT_NO
+        , B.ORIG_FILE_NAME
+        , B.SAVE_FILE_NAME
+        , B.SAVE_PATH
+        , B.THUMBNAIL_PATH
+        , C.DOWNLOAD_HITS
+        FROM TBL_INQUIRY A
+        LEFT JOIN TBL_ATTACHMENT B ON(A.INQUIRY_NO = B.REF_INQ_NO)
+        LEFT JOIN TBL_DOWNLOAD C ON(B.ATTACHMENT_NO = C.ATTACHMENT_NO)
+        WHERE A.INQUIRY_NO = #{ inquiryNo }
+        <if test="memberId != ''">AND A.MEMBER_ID = #{ memberId }</if>
+    </select>
+
+    <!-- 고객센터 1:1 문의 조회수 증가 -->
+    <update id="incrementInquiryViewCount">
+        UPDATE
+            TBL_INQUIRY A
+        SET A.INQUIRY_HITS = (SELECT
+                                  B.INQUIRY_HITS
+                              FROM TBL_INQUIRY B
+                              WHERE B.INQUIRY_NO = #{ inquiryNo }
+                             ) + 1
+        WHERE A.INQUIRY_NO = #{ inquiryNo }
+    </update>
+
+    <!-- 고객센터 1:1 문의 답변완료 반영 -->
+    <update id="updateInquiryAnsweredYn">
+        UPDATE
+            TBL_INQUIRY
+        SET INQUIRY_ANSWERED_YN = 'Y'
+        WHERE INQUIRY_NO = #{ inquiryNo }
+    </update>
+
+    <!-- 고객센터 1:1 문의 수정 -->
+    <update id="updateAInquiry">
+        UPDATE
+            TBL_INQUIRY
+        SET INQUIRY_TITLE = #{ inquiryTitle }
+          , INQUIRY_CONTENT = #{ inquiryContent }
+          , INQUIRY_TYPE = #{ inquiryType }
+          , INQUIRY_CHG_DATE = SYSDATE
+        WHERE INQUIRY_NO = #{ inquiryNo }
+    </update>
+    <!-- 현재 저장돼 있는 첨부파일 유무 확인 -->
+    <select id="checkAttachedFiles" resultType="_int">
+        SELECT
+            COUNT(ATTACHMENT_NO)
+        FROM TBL_ATTACHMENT
+        WHERE REF_INQ_NO = #{ refInqNo }
+    </select>
+
+    <!-- 리뷰 수정 중 기존 첨부파일 삭제 -->
+    <delete id="deleteDownloadHits">
+        DELETE
+        FROM TBL_DOWNLOAD A
+        WHERE A.ATTACHMENT_NO = (SELECT B.ATTACHMENT_NO FROM TBL_ATTACHMENT B WHERE B.REF_INQ_NO = #{ refIntNo })
+    </delete>
+    <delete id="deleteAttachedFiles">
+        DELETE
+        FROM TBL_ATTACHMENT
+        WHERE REF_INQ_NO = #{ refInqNo }
+    </delete>
+</mapper>
