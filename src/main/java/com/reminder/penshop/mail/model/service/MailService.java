@@ -3,8 +3,9 @@ package com.reminder.penshop.mail.model.service;
 import com.reminder.penshop.mail.model.dto.MailDTO;
 import com.reminder.penshop.member.model.dto.MemberDTO;
 import com.reminder.penshop.member.model.service.RedisService;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.UUID;
+
 
 @Slf4j
 @Component
