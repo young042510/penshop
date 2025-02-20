@@ -1,4 +1,4 @@
-package com.reminder.penshop;
+package com.reminder.penshop.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
