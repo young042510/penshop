@@ -7,9 +7,15 @@ import com.reminder.penshop.member.model.dto.MemberDTO;
 import com.reminder.penshop.member.model.dto.WishListDTO;
 import com.reminder.penshop.review.model.dto.ReviewDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.List;
 
+/**
+ * Spring Security 모듈 UserDetailsService 상속 받아 로그인/로그아웃 로직 처리
+ */
 /**
  * Spring Security 모듈 UserDetailsService 상속 받아 로그인/로그아웃 로직 처리
  */
