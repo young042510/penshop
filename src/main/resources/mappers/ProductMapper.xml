@@ -1,0 +1,1112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 매퍼 네임스페이스 등록 후 사용해야 함 -->
+<mapper namespace="com.reminder.penshop.product.model.dao.ProductMapper">
+    <!-- 상품 조회용 -->
+    <resultMap id="productResultMap" type="com.reminder.penshop.product.model.dto.ProductDTO">
+        <id property="prodNo" column="PROD_NO"/>
+        <result property="categoryNo" column="CATEGORY_NO"/>
+        <result property="brandNo" column="BRAND_NO"/>
+        <result property="prodName" column="PROD_NAME"/>
+        <result property="prodDesc" column="PROD_DESC"/>
+        <result property="productTag" column="PRODUCT_TAG"/>
+        <result property="discountRate" column="DISCOUNT_RATE"/>
+        <result property="prodPrice" column="PROD_PRICE"/>
+        <result property="prodOrigin" column="PROD_ORIGIN"/>
+        <result property="prodDetailContent" column="PROD_DETAIL_CONTENT"/>
+        <result property="prodDetailViewCount" column="PROD_DETAIL_VIEW_COUNT"/>
+        <result property="prodEnrollDate" column="PROD_ENROLL_DATE"/>
+        <result property="prodChangeDate" column="PROD_CHANGE_DATE"/>
+        <result property="prodAvailYn" column="PROD_AVAIL_YN"/>
+        <association property="category" resultMap="categoryResultMap"/> <!-- 1:1 -->
+        <association property="brand" resultMap="brandResultMap"/> <!-- 1:1 -->
+        <association property="attachmentList" resultMap="thumbnailResultMap"/> <!-- 1:1 -->
+        <collection property="option" resultMap="optionResultMap"/> <!-- 1:N -->
+    </resultMap>
+
+    <!-- 썸네일 조회용 -->
+    <resultMap id="thumbnailResultMap" type="com.reminder.penshop.upload.model.dto.AttachmentDTO">
+        <id property="attachmentNo" column="ATTACHMENT_NO"/>
+        <result property="refProdNo" column="REF_PROD_NO"/>
+        <result property="refRevwNo" column="REF_REVW_NO"/>
+        <result property="refInqNo" column="REF_INQ_NO"/>
+        <result property="origFileName" column="ORIG_FILE_NAME"/>
+        <result property="saveFileName" column="SAVE_FILE_NAME"/>
+        <result property="savePath" column="SAVE_PATH"/>
+        <result property="thumbnailPath" column="THUMBNAIL_PATH"/>
+        <result property="fileType" column="FILE_TYPE"/>
+        <result property="attachStatusYn" column="ATTACH_STATUS_YN"/>
+    </resultMap>
+
+    <!-- 옵션 조회용 -->
+    <resultMap id="optionResultMap" type="com.reminder.penshop.product.model.dto.OptionDTO">
+        <id property="optionNo" column="OPTION_NO"/>
+        <result property="refProdNo" column="REF_PROD_NO"/>
+        <result property="refStockNo" column="REF_STOCK_NO"/>
+        <result property="bodyColor" column="OPT_BODY_COLOR"/>
+        <result property="inkColor" column="OPT_INK_COLOR"/>
+        <result property="pointSize" column="OPT_POINT_SIZE"/>
+        <result property="extraCharge" column="OPT_EXTRA_CHARGE"/>
+        <association property="stock" resultMap="stockResultMap"/> <!-- 1:1 -->
+        <association property="product" resultMap="productResultMap"/> <!-- 1:1 -->
+    </resultMap>
+
+    <!-- 재고 조회용 -->
+    <resultMap id="stockResultMap" type="com.reminder.penshop.product.model.dto.StockDTO">
+        <id property="stockNo" column="STOCK_NO"/>
+        <result property="stockAmount" column="STOCK_AMOUNT"/>
+        <result property="stockDate" column="STOCK_DATE"/>
+    </resultMap>
+
+    <!-- 카테고리 조회용 -->
+    <resultMap id="categoryResultMap" type="com.reminder.penshop.product.model.dto.CategoryDTO">
+        <id property="categoryNo" column="CATEGORY_NO"/>
+        <result property="categoryName" column="CATEGORY_NAME"/>
+        <result property="categorySection" column="CATEGORY_SECTION"/>
+    </resultMap>
+
+    <!-- 브랜드 조회용 -->
+    <resultMap id="brandResultMap" type="com.reminder.penshop.product.model.dto.BrandDTO">
+        <id property="brandNo" column="BRAND_NO"/>
+        <result property="brandName" column="BRAND_NAME"/>
+    </resultMap>
+
+    <!-- 리뷰 조회용 -->
+    <resultMap id="reviewResultMap" type="com.reminder.penshop.review.model.dto.ReviewDTO">
+        <id property="reviewNo" column="REVIEW_NO"/>
+        <result property="optionNo" column="OPTION_NO"/>
+        <result property="orderNo" column="ORDER_NO"/>
+        <result property="memberId" column="MEMBER_ID"/>
+        <result property="revwTitle" column="REVW_TITLE"/>
+        <result property="revwContent" column="REVW_CONTENT"/>
+        <result property="revwRegDate" column="REVW_REG_DATE"/>
+        <result property="revwHits" column="REVW_HITS"/>
+        <result property="revwRatings" column="REVW_RATINGS"/>
+        <association property="option" resultMap="optionResultMap"/>
+        <association property="product" resultMap="productResultMap"/>
+        <collection property="attachmentList" resultMap="thumbnailResultMap"/>
+    </resultMap>
+
+    <!-- 카테고리 목록 조회 -->
+    <select id="getCategoryList" resultMap="categoryResultMap">
+        SELECT * FROM TBL_CATEGORY
+    </select>
+
+    <!-- 카테고리 번호 조회 -->
+    <select id="checkCategoryNo" parameterType="String" resultType="int">
+        SELECT
+            CATEGORY_NO
+        FROM TBL_CATEGORY
+        WHERE CATEGORY_NAME = #{ categoryName }
+    </select>
+
+    <!-- 카테고리 이름 조회 -->
+    <select id="checkCategoryName" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM TBL_CATEGORY
+        WHERE REPLACE(TRIM(CATEGORY_NAME), ' ', '') = #{ categoryName }
+    </select>
+
+    <!-- 카테고리 추가 -->
+    <insert id="addANewCategory">
+        INSERT
+        INTO TBL_CATEGORY
+        (
+          CATEGORY_NO
+        , CATEGORY_NAME
+        , CATEGORY_SECTION
+        )
+        VALUES
+            (
+                  (SELECT MAX(CATEGORY_NO)+1 FROM TBL_CATEGORY)
+            , #{ categoryName }
+            , #{ categorySection }
+            )
+    </insert>
+
+    <!-- 브랜드 목록 조회 -->
+    <select id="getBrandList" resultMap="brandResultMap">
+        SELECT * FROM TBL_BRAND
+    </select>
+
+    <!-- 브랜드 번호 조회 -->
+    <select id="checkBrandNo" parameterType="String" resultType="int">
+        SELECT
+            BRAND_NO
+        FROM TBL_BRAND
+        WHERE BRAND_NAME = #{ brandName }
+    </select>
+
+    <!-- 브랜드 이름 조회 -->
+    <select id="checkBrandName" parameterType="String" resultType="int">
+        SELECT
+            COUNT(*)
+        FROM TBL_BRAND
+        WHERE REPLACE(TRIM(BRAND_NAME), ' ', '') = #{ brandName }
+    </select>
+
+    <!-- 브랜드 추가 -->
+    <insert id="addNewBrand">
+        INSERT
+        INTO TBL_BRAND
+        (
+          BRAND_NO
+        , BRAND_NAME
+        )
+        VALUES
+            (
+                  (SELECT MAX(BRAND_NO)+1 FROM TBL_BRAND)
+            , #{ brandName }
+            )
+    </insert>
+
+    <!-- 상품 등록 -->
+    <insert id="addProduct">
+        INSERT
+        INTO TBL_PRODUCT
+        (
+        PROD_NO
+        , CATEGORY_NO
+        , BRAND_NO
+        , PROD_NAME
+        , PROD_DESC
+        , PRODUCT_TAG
+        , DISCOUNT_RATE
+        , PROD_PRICE
+        , PROD_ORIGIN
+        , PROD_DETAIL_CONTENT
+        , PROD_DETAIL_VIEW_COUNT
+        , PROD_ENROLL_DATE
+        , PROD_CHANGE_DATE
+        , PROD_AVAIL_YN
+        )
+        VALUES
+        (
+        SEQ_PROD_NO.NEXTVAL
+        , #{ categoryNo }
+        , #{ brandNo }
+        , #{ prodName }
+        , #{ prodDesc }
+        , #{ productTag }
+        , #{ discountRate }
+        , #{ prodPrice }
+        , #{ prodOrigin }
+        , #{ prodDetailContent }
+        , DEFAULT
+        <!-- , TO_DATE('2022-11-30', 'YYYY-MM-DD')  --> <!-- 필요 시 날짜 지정 -->
+        , SYSDATE
+        , NULL
+        , DEFAULT
+        )
+    </insert>
+
+    <!-- 현재 상품번호 조회 -->
+    <select id="checkCurrProdNo" resultType="int">
+        SELECT
+            SEQ_PROD_NO.CURRVAL
+        FROM DUAL
+    </select>
+
+    <!-- 입고 추가 -->
+    <insert id="addProductStock">
+        INSERT
+        INTO TBL_STOCK
+        (
+          STOCK_NO
+        , STOCK_AMOUNT
+        , STOCK_DATE
+        )
+        VALUES
+            (
+              SEQ_STOCK_NO.NEXTVAL
+            , #{ stockAmount }
+            , SYSDATE
+            )
+    </insert>
+
+    <!-- 옵션 추가 -->
+    <insert id="addProductOption">
+        <selectKey resultType="_int" keyProperty="refStockNo" order="BEFORE">
+            SELECT
+            SEQ_STOCK_NO.CURRVAL
+            FROM DUAL
+        </selectKey>
+        INSERT
+        INTO TBL_OPTION
+        (
+        OPTION_NO
+        , REF_PROD_NO
+        , REF_STOCK_NO
+        , OPT_BODY_COLOR
+        , OPT_INK_COLOR
+        , OPT_POINT_SIZE
+        , OPT_EXTRA_CHARGE
+        )
+        VALUES
+        (
+        SEQ_OPT_NO.NEXTVAL
+        , SEQ_PROD_NO.CURRVAL
+        , #{ refStockNo }
+        , #{ bodyColor }
+        , #{ inkColor }
+        , #{ pointSize }
+        , #{ extraCharge }
+        )
+    </insert>
+
+    <!-- 상품 썸네일 등록 -->
+    <insert id="attachProdThumbnail">
+        INSERT
+        INTO TBL_ATTACHMENT
+        (
+          ATTACHMENT_NO
+        , REF_PROD_NO
+        , REF_REVW_NO
+        , REF_INQ_NO
+        , ORIG_FILE_NAME
+        , SAVE_FILE_NAME
+        , SAVE_PATH
+        , THUMBNAIL_PATH
+        , FILE_TYPE
+        , ATTACH_STATUS_YN
+        )
+        VALUES
+            (
+              SEQ_ATTACH_NO.NEXTVAL
+            , #{ refProdNo }
+            , NULL
+            , NULL
+            , #{ origFileName }
+            , #{ saveFileName }
+            , #{ savePath }
+            , #{ thumbnailPath }
+            , #{ fileType }
+            , DEFAULT
+            )
+    </insert>
+
+    <!-- 상품 상세내용이미지 등록 -->
+    <insert id="attachProdContentImage">
+        INSERT
+        INTO TBL_ATTACHMENT
+        (
+          ATTACHMENT_NO
+        , REF_PROD_NO
+        , REF_REVW_NO
+        , REF_INQ_NO
+        , ORIG_FILE_NAME
+        , SAVE_FILE_NAME
+        , SAVE_PATH
+        , THUMBNAIL_PATH
+        , FILE_TYPE
+        , ATTACH_STATUS_YN
+        )
+        VALUES
+            (
+              SEQ_ATTACH_NO.NEXTVAL
+            , NULL
+            , NULL
+            , NULL
+            , #{ origFileName }
+            , #{ saveFileName }
+            , #{ savePath }
+            , NULL
+            , #{ fileType }
+            , DEFAULT
+            )
+    </insert>
+
+    <!-- 상품 상세내용이미지와 해당 상품번호 연결 -->
+    <update id="updateProdNoContentImage">
+        UPDATE
+            TBL_ATTACHMENT T
+        SET T.REF_PROD_NO = (SELECT
+                                 A.PROD_NO
+                             FROM TBL_PRODUCT A
+                                      LEFT JOIN TBL_ATTACHMENT B ON(A.PROD_NO = B.REF_PROD_NO)
+                             WHERE A.PROD_DETAIL_CONTENT LIKE '%' || #{ savePath } || '%'
+                               AND ROWNUM = 1)
+        WHERE T.FILE_TYPE = 'CONTENT'
+          AND T.SAVE_PATH = #{ savePath }
+    </update>
+
+    <!-- 전체상품번호 조회 -->
+    <select id="getAllProdNo" resultType="_int">
+        SELECT
+        PROD_NO
+        FROM TBL_PRODUCT
+        ORDER BY PROD_NO DESC <!-- 상품목록페이징에서 descending순으로 조회해오기 때문에 일치하게 호출 => list[stat.index] 활용으로 이어짐 -->
+    </select>
+
+    <!-- 상품 목록 검색 *대시보드* -->
+    <sql id="dashboardProductSearch">
+        <trim prefix="AND">
+            <if test="keyword != null and condition eq 'prodName'">A.PROD_NAME LIKE '%' || #{ keyword } || '%'</if>
+            <if test="keyword != null and condition eq 'brand'">C.BRAND_NAME LIKE '%' || #{ keyword } || '%'</if>
+            <if test="keyword != null and condition eq 'category'">B.CATEGORY_NAME LIKE '%' || #{ keyword } || '%'</if>
+            <if test="keyword != null and condition eq 'bodyColor'">O.OPT_BODY_COLOR LIKE '%' || #{ keyword } || '%'</if>
+            <if test="keyword != null and condition eq 'inkColor'">O.OPT_INK_COLOR LIKE '%' || #{ keyword } || '%'</if>
+            <if test="keyword != null and condition eq 'pointSize'">O.OPT_POINT_SIZE LIKE TO_NUMBER(#{ keyword })</if>
+            <if test="keyword != null and condition eq 'tag'">A.PRODUCT_TAG LIKE '%' || #{ keyword } || '%'</if>
+        </trim>
+    </sql>
+
+    <!-- 전체상품 개수 조회 -->
+    <select id="getTotalNumber" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultType="_int">
+        SELECT
+        COUNT(DISTINCT A.PROD_NO)
+        FROM TBL_PRODUCT A
+        LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+        LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        WHERE 1 = 1
+        <include refid="dashboardProductSearch"/>
+    </select>
+
+    <!-- 판매중 상품 개수 조회 -->
+    <select id="getOnSaleNumber" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultType="_int">
+        SELECT
+        COUNT(DISTINCT A.PROD_NO)
+        FROM TBL_PRODUCT A
+        LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+        LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        WHERE A.PROD_AVAIL_YN = 'Y'
+        <include refid="dashboardProductSearch"/>
+    </select>
+
+    <!-- 판매중지 상품 개수 조회 -->
+    <select id="getStopSaleNumber" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultType="_int">
+        SELECT
+        COUNT(DISTINCT A.PROD_NO)
+        FROM TBL_PRODUCT A
+        LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+        LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        WHERE A.PROD_AVAIL_YN = 'N'
+        <include refid="dashboardProductSearch"/>
+    </select>
+
+    <!-- 할인중 상품 개수 조회 -->
+    <select id="getOnDiscountNumber" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultType="_int">
+        SELECT
+        COUNT(DISTINCT A.PROD_NO)
+        FROM TBL_PRODUCT A
+        LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+        LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        WHERE A.DISCOUNT_RATE > 0
+        <include refid="dashboardProductSearch"/>
+    </select>
+
+    <!-- 품절 상품 개수 조회 -->
+    <select id="getSoldOutNumber" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultType="_int">
+        SELECT
+        COUNT(DISTINCT A.PROD_NO)
+        FROM TBL_PRODUCT A
+        LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+        LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        LEFT JOIN TBL_STOCK S ON(O.REF_STOCK_NO = S.STOCK_NO)
+        WHERE S.STOCK_AMOUNT = 0
+        <include refid="dashboardProductSearch"/>
+    </select>
+
+    <!-- 전체상품 목록 조회 *페이징* -->
+    <select id="getProductList" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultMap="productResultMap">
+        <![CDATA[
+		SELECT
+			   E.*
+		  FROM
+		(
+		SELECT D.RANK RK 
+			 , D.*
+		  FROM (SELECT 
+		  			   DENSE_RANK() OVER (ORDER BY A.PROD_ENROLL_DATE DESC, A.PROD_NO DESC) RANK
+		  			 , ROW_NUMBER() OVER (PARTITION BY A.PROD_NO ORDER BY O.OPTION_NO) REFR
+		  			 , A.PROD_NO
+					 , B.CATEGORY_NAME
+					 , C.BRAND_NAME
+					 , A.PROD_NAME
+					 , A.PROD_DESC
+					 , A.PRODUCT_TAG
+					 , A.DISCOUNT_RATE
+					 , A.PROD_PRICE
+					 , A.PROD_ORIGIN
+					 , A.PROD_DETAIL_CONTENT
+					 , A.PROD_DETAIL_VIEW_COUNT
+					 , A.PROD_ENROLL_DATE
+					 , A.PROD_CHANGE_DATE
+					 , A.PROD_AVAIL_YN
+					 , O.OPT_BODY_COLOR
+					 , O.OPT_INK_COLOR
+					 , O.OPT_POINT_SIZE
+			 	  FROM TBL_PRODUCT A
+			 	  LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+			 	  LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+			 	  LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+			 	 WHERE 1 = 1
+		]]>
+        <include refid="dashboardProductSearch"></include>
+        ) D
+        <![CDATA[
+		 WHERE D.RANK <= #{ currentPageNo } * #{ recordsPerPage }
+		   AND D.REFR = 1
+		) E
+		WHERE E.RK > (#{ currentPageNo } - 1) * #{ recordsPerPage }
+		]]>
+    </select>
+
+    <!-- 판매중 상품 목록 조회 *디자인 등록용, 페이징 제외* -->
+    <select id="getProductsToDisplay" resultMap="productResultMap">
+        SELECT
+            DENSE_RANK() OVER (ORDER BY PROD_ENROLL_DATE, PROD_NO DESC) RANK
+  			 , A.PROD_NO
+             , B.CATEGORY_NAME
+             , C.BRAND_NAME
+             , A.PROD_NAME
+             , A.PROD_DESC
+             , A.PRODUCT_TAG
+             , A.DISCOUNT_RATE
+             , A.PROD_PRICE
+             , A.PROD_ORIGIN
+             , A.PROD_DETAIL_CONTENT
+             , A.PROD_DETAIL_VIEW_COUNT
+             , A.PROD_ENROLL_DATE
+             , A.PROD_CHANGE_DATE
+             , A.PROD_AVAIL_YN
+             , O.OPT_BODY_COLOR
+             , O.OPT_INK_COLOR
+             , O.OPT_POINT_SIZE
+        FROM TBL_PRODUCT A
+                 LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+                 LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+                 LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        WHERE A.PROD_AVAIL_YN = 'Y'
+    </select>
+
+    <!-- 판매중 상품 목록 조회 *페이징* -->
+    <select id="getOnSaleOnly" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultMap="productResultMap">
+        <![CDATA[
+		SELECT
+			   E.*
+		  FROM
+		(
+		SELECT D.RANK RK 
+			 , D.*
+		  FROM (SELECT 
+		  			   DENSE_RANK() OVER (ORDER BY A.PROD_ENROLL_DATE, A.PROD_NO DESC) RANK
+		  			 , ROW_NUMBER() OVER (PARTITION BY A.PROD_NO ORDER BY O.OPTION_NO) REFR
+		  			 , A.PROD_NO
+					 , B.CATEGORY_NAME
+					 , C.BRAND_NAME
+					 , A.PROD_NAME
+					 , A.PROD_DESC
+					 , A.PRODUCT_TAG
+					 , A.DISCOUNT_RATE
+					 , A.PROD_PRICE
+					 , A.PROD_ORIGIN
+					 , A.PROD_DETAIL_CONTENT
+					 , A.PROD_DETAIL_VIEW_COUNT
+					 , A.PROD_ENROLL_DATE
+					 , A.PROD_CHANGE_DATE
+					 , A.PROD_AVAIL_YN
+					 , O.OPT_BODY_COLOR
+					 , O.OPT_INK_COLOR
+					 , O.OPT_POINT_SIZE
+			 	  FROM TBL_PRODUCT A
+			 	  LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+			 	  LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+			 	  LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+			 	 WHERE A.PROD_AVAIL_YN = 'Y'
+		]]>
+        <include refid="dashboardProductSearch"></include>
+        ) D
+        <![CDATA[
+		 WHERE D.RANK <= #{ currentPageNo } * #{ recordsPerPage }
+		   AND D.REFR = 1
+		) E
+		WHERE E.RK > (#{ currentPageNo } - 1) * #{ recordsPerPage }
+		]]>
+    </select>
+
+    <!-- 판매중지 상품 목록 조회 -->
+    <select id="getStopSaleOnly" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultMap="productResultMap">
+        <![CDATA[
+		SELECT
+			   E.*
+		  FROM
+		(
+		SELECT D.RANK RK 
+			 , D.*
+		  FROM (SELECT 
+		  			   DENSE_RANK() OVER (ORDER BY A.PROD_ENROLL_DATE, A.PROD_NO DESC) RANK
+		  			 , ROW_NUMBER() OVER (PARTITION BY A.PROD_NO ORDER BY O.OPTION_NO) REFR
+		  			 , A.PROD_NO
+					 , B.CATEGORY_NAME
+					 , C.BRAND_NAME
+					 , A.PROD_NAME
+					 , A.PROD_DESC
+					 , A.PRODUCT_TAG
+					 , A.DISCOUNT_RATE
+					 , A.PROD_PRICE
+					 , A.PROD_ORIGIN
+					 , A.PROD_DETAIL_CONTENT
+					 , A.PROD_DETAIL_VIEW_COUNT
+					 , A.PROD_ENROLL_DATE
+					 , A.PROD_CHANGE_DATE
+					 , A.PROD_AVAIL_YN
+					 , O.OPT_BODY_COLOR
+					 , O.OPT_INK_COLOR
+					 , O.OPT_POINT_SIZE
+			 	  FROM TBL_PRODUCT A
+			 	  LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+			 	  LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+			 	  LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+			 	 WHERE A.PROD_AVAIL_YN = 'N'
+		]]>
+        <include refid="dashboardProductSearch"></include>
+        ) D
+        <![CDATA[
+		 WHERE D.RANK <= #{ currentPageNo } * #{ recordsPerPage }
+		   AND D.REFR = 1
+		) E
+		WHERE E.RK > (#{ currentPageNo } - 1) * #{ recordsPerPage }
+		]]>
+    </select>
+
+    <!-- 할인중 상품 목록 조회 -->
+    <select id="getOnDiscountOnly" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultMap="productResultMap">
+        <![CDATA[
+		SELECT
+			   E.*
+		  FROM
+		(
+		SELECT D.RANK RK 
+			 , D.*
+		  FROM (SELECT 
+		  			   DENSE_RANK() OVER (ORDER BY A.PROD_ENROLL_DATE, A.PROD_NO) RANK
+		  			 , ROW_NUMBER() OVER (PARTITION BY A.PROD_NO ORDER BY O.OPTION_NO) REFR
+		  			 , A.PROD_NO
+					 , B.CATEGORY_NAME
+					 , C.BRAND_NAME
+					 , A.PROD_NAME
+					 , A.PROD_DESC
+					 , A.PRODUCT_TAG
+					 , A.DISCOUNT_RATE
+					 , A.PROD_PRICE
+					 , A.PROD_ORIGIN
+					 , A.PROD_DETAIL_CONTENT
+					 , A.PROD_DETAIL_VIEW_COUNT
+					 , A.PROD_ENROLL_DATE
+					 , A.PROD_CHANGE_DATE
+					 , A.PROD_AVAIL_YN
+					 , O.OPT_BODY_COLOR
+					 , O.OPT_INK_COLOR
+					 , O.OPT_POINT_SIZE
+			 	  FROM TBL_PRODUCT A
+			 	  LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+			 	  LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+			 	  LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+			 	 WHERE A.PROD_AVAIL_YN = 'Y'
+		   		   AND A.DISCOUNT_RATE > 0
+		]]>
+        <include refid="dashboardProductSearch"></include>
+        ) D
+        <![CDATA[
+		 WHERE D.RANK <= #{ currentPageNo } * #{ recordsPerPage }
+		   AND D.REFR = 1
+		) E
+		WHERE E.RK > (#{ currentPageNo } - 1) * #{ recordsPerPage }
+		]]>
+    </select>
+
+    <!-- 품절 상품 목록 조회 -->
+    <select id="getSoldOutOnly" parameterType="com.reminder.penshop.paging.model.dto.Criteria" resultMap="productResultMap">
+        <![CDATA[
+		SELECT
+			   E.*
+		  FROM
+		(
+		SELECT D.RANK RK 
+			 , D.*
+		  FROM (SELECT 
+		  			   DENSE_RANK() OVER (ORDER BY A.PROD_ENROLL_DATE, A.PROD_NO) RANK
+		  			 , ROW_NUMBER() OVER (PARTITION BY A.PROD_NO ORDER BY O.OPTION_NO) REFR
+		  			 , A.PROD_NO
+					 , B.CATEGORY_NAME
+					 , C.BRAND_NAME
+					 , A.PROD_NAME
+					 , A.PROD_DESC
+					 , A.PRODUCT_TAG
+					 , A.DISCOUNT_RATE
+					 , A.PROD_PRICE
+					 , A.PROD_ORIGIN
+					 , A.PROD_DETAIL_CONTENT
+					 , A.PROD_DETAIL_VIEW_COUNT
+					 , A.PROD_ENROLL_DATE
+					 , A.PROD_CHANGE_DATE
+					 , A.PROD_AVAIL_YN
+					 , O.OPT_BODY_COLOR
+					 , O.OPT_INK_COLOR
+					 , O.OPT_POINT_SIZE
+			 	  FROM TBL_PRODUCT A
+			 	  LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+			 	  LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+			 	  LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+			 	  LEFT JOIN TBL_STOCK S ON(O.REF_STOCK_NO = S.STOCK_NO)
+			 	  LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+			 	 WHERE A.PROD_AVAIL_YN = 'Y'
+		   		   AND S.STOCK_AMOUNT = 0
+		]]>
+        <include refid="dashboardProductSearch"></include>
+        ) D
+        <![CDATA[
+		 WHERE D.RANK <= #{ currentPageNo } * #{ recordsPerPage }
+		   AND D.REFR = 1
+		) E
+		WHERE E.RK > (#{ currentPageNo } - 1) * #{ recordsPerPage }
+		]]>
+    </select>
+
+    <!-- 상품별 메인썸네일 조회 -->
+    <select id="getMainThumbnailByProdNo" resultMap="thumbnailResultMap">
+        SELECT
+            REF_PROD_NO
+             , THUMBNAIL_PATH
+             , SAVE_PATH
+        FROM TBL_ATTACHMENT
+        WHERE ATTACH_STATUS_YN = 'Y'
+          AND FILE_TYPE = 'THUMB_MAIN'
+          AND REF_PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 상품별 서브썸네일 조회 -->
+    <select id="getSubThumbnailByProdNo" resultMap="thumbnailResultMap">
+        SELECT
+            REF_PROD_NO
+             , THUMBNAIL_PATH
+             , SAVE_PATH
+        FROM TBL_ATTACHMENT
+        WHERE ATTACH_STATUS_YN = 'Y'
+          AND FILE_TYPE = 'THUMB_SUB'
+          AND REF_PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 상품별 옵션 조회 -->
+    <select id="getOptionListByProdNo" resultMap="optionResultMap">
+        SELECT
+            A.OPTION_NO
+             , A.REF_PROD_NO
+             , B.STOCK_AMOUNT
+             , A.OPT_BODY_COLOR
+             , A.OPT_INK_COLOR
+             , A.OPT_POINT_SIZE
+             , A.OPT_EXTRA_CHARGE
+        FROM TBL_OPTION A
+                 LEFT JOIN TBL_STOCK B ON(A.REF_STOCK_NO = B.STOCK_NO)
+        WHERE A.REF_PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 상품별 카테고리 조회 -->
+    <select id="getCategoryByProdNo" resultMap="categoryResultMap">
+        SELECT
+            A.CATEGORY_NO
+             , A.CATEGORY_NAME
+             , A.CATEGORY_SECTION
+        FROM TBL_CATEGORY A
+                 LEFT JOIN TBL_PRODUCT B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        WHERE B.PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 상품별 브랜드 조회 -->
+    <select id="getBrandByProdNo" resultMap="brandResultMap">
+        SELECT
+            A.BRAND_NO
+             , A.BRAND_NAME
+        FROM TBL_BRAND A
+                 LEFT JOIN TBL_PRODUCT B ON(A.BRAND_NO = B.BRAND_NO)
+        WHERE B.PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 상품별 누적 판매량 조회 -->
+    <select id="getSalesByProdNo" resultType="_int">
+        SELECT
+            SUM(A.ORDER_QUANTITY)
+        FROM TBL_ORDER A
+                 LEFT JOIN TBL_OPTION B ON(A.OPTION_NO = B.OPTION_NO)
+        WHERE B.REF_PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 상품별 리뷰 조회 -->
+    <select id="getReviewListByProdNo" resultMap="reviewResultMap">
+        SELECT
+            A.REVIEW_NO
+             , A.OPTION_NO
+             , A.ORDER_NO
+             , SUBSTR(A.MEMBER_ID, 1, 4) || RPAD('*', LENGTH(A.MEMBER_ID)-4, '*') MEMBER_ID
+             , A.REVW_TITLE
+             , A.REVW_CONTENT
+             , A.REVW_REG_DATE
+             , A.REVW_HITS
+             , A.REVW_RATINGS
+             , B.THUMBNAIL_PATH
+             , C.OPT_BODY_COLOR
+             , C.OPT_INK_COLOR
+             , C.OPT_POINT_SIZE
+             , D.PROD_NAME
+        FROM TBL_REVIEW A
+                 LEFT JOIN TBL_ATTACHMENT B ON(A.REVIEW_NO = B.REF_REVW_NO)
+                 LEFT JOIN TBL_OPTION C ON(A.OPTION_NO = C.OPTION_NO)
+                 LEFT JOIN TBL_PRODUCT D ON(C.REF_PROD_NO = D.PROD_NO)
+        WHERE C.REF_PROD_NO = #{ prodNo }
+        ORDER BY A.REVW_REG_DATE DESC
+    </select>
+
+    <!-- 상품별 전체 리뷰수 -->
+    <select id="getTotalNumberOfReviews" resultType="_int">
+        SELECT
+            COUNT(DISTINCT(A.REVIEW_NO))
+        FROM TBL_REVIEW A
+                 LEFT JOIN TBL_ATTACHMENT B ON(A.REVIEW_NO = B.REF_REVW_NO)
+                 LEFT JOIN TBL_OPTION C ON(A.OPTION_NO = C.OPTION_NO)
+                 LEFT JOIN TBL_PRODUCT D ON(C.REF_PROD_NO = D.PROD_NO)
+        WHERE D.PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 상품별 사용자 총 평점 조회 *반올림* -->
+    <select id="averageReviewRating" resultType="double">
+        SELECT
+            ROUND(AVG(RATING), 1)
+        FROM (SELECT
+                  DISTINCT(A.REVIEW_NO)
+                         , A.REVW_RATINGS RATING
+              FROM TBL_REVIEW A
+                       LEFT JOIN TBL_ATTACHMENT B ON(A.REVIEW_NO = B.REF_REVW_NO)
+                       LEFT JOIN TBL_OPTION C ON(A.OPTION_NO = C.OPTION_NO)
+                       LEFT JOIN TBL_PRODUCT D ON(C.REF_PROD_NO = D.PROD_NO)
+              WHERE D.PROD_NO = #{ prodNo })
+    </select>
+
+    <!-- 상품별 평점 비율 조회 *반올림* -->
+    <select id="getPercentageOfRating" resultType="_int">
+        SELECT ROUND(NUM / #{ total } * 100)
+        FROM (SELECT COUNT(REVW_RATINGS) NUM
+              FROM (SELECT
+                        DISTINCT(A.REVIEW_NO)
+                               , A.REVW_RATINGS
+                    FROM TBL_REVIEW A
+                             LEFT JOIN TBL_ATTACHMENT B ON(A.REVIEW_NO = B.REF_REVW_NO)
+                             LEFT JOIN TBL_OPTION C ON(A.OPTION_NO = C.OPTION_NO)
+                             LEFT JOIN TBL_PRODUCT D ON(C.REF_PROD_NO = D.PROD_NO)
+                    WHERE D.PROD_NO = #{ prodNo }
+                   )
+              WHERE REVW_RATINGS = #{ star })
+    </select>
+
+    <!-- 상품 평점별 누적 리뷰수 조회 -->
+    <select id="getNumberOfRatings" resultType="_int">
+        SELECT COUNT(REVW_RATINGS) NUM
+        FROM (SELECT
+                  DISTINCT(A.REVIEW_NO)
+                         , A.REVW_RATINGS
+              FROM TBL_REVIEW A
+                       LEFT JOIN TBL_ATTACHMENT B ON(A.REVIEW_NO = B.REF_REVW_NO)
+                       LEFT JOIN TBL_OPTION C ON(A.OPTION_NO = C.OPTION_NO)
+                       LEFT JOIN TBL_PRODUCT D ON(C.REF_PROD_NO = D.PROD_NO)
+              WHERE D.PROD_NO = #{ prodNo })
+        WHERE REVW_RATINGS = #{ star }
+    </select>
+
+    <!-- 옵션번호 기준 상품번호 조회 -->
+    <select id="searchProdNoByOptionNo" resultType="_int">
+        SELECT
+            REF_PROD_NO
+        FROM TBL_OPTION
+        WHERE OPTION_NO = #{ optionNo }
+    </select>
+
+    <!-- 상품 상세 조회수 증가 -->
+    <update id="incrementProdDetailViewCount">
+        UPDATE
+            TBL_PRODUCT A
+        SET A.PROD_DETAIL_VIEW_COUNT = (SELECT
+                                            B.PROD_DETAIL_VIEW_COUNT
+                                        FROM TBL_PRODUCT B
+                                        WHERE B.PROD_NO = #{ prodNo }
+                                       ) + 1
+        WHERE A.PROD_NO = #{ prodNo }
+    </update>
+
+    <!-- 상품 상세정보 조회 -->
+    <select id="getProductDetails" resultMap="productResultMap">
+        SELECT
+            A.PROD_NO
+             , B.CATEGORY_NAME
+             , C.BRAND_NAME
+             , A.PROD_NAME
+             , A.PROD_DESC
+             , A.PRODUCT_TAG
+             , A.DISCOUNT_RATE
+             , A.PROD_PRICE
+             , A.PROD_ORIGIN
+             , A.PROD_DETAIL_CONTENT
+             , A.PROD_DETAIL_VIEW_COUNT
+             , A.PROD_ENROLL_DATE
+             , A.PROD_CHANGE_DATE
+             , A.PROD_AVAIL_YN
+             , T.THUMBNAIL_PATH
+             , O.OPT_BODY_COLOR
+             , O.OPT_INK_COLOR
+             , O.OPT_POINT_SIZE
+        FROM TBL_PRODUCT A
+                 LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+                 LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+                 LEFT JOIN TBL_ATTACHMENT T ON(A.PROD_NO = T.REF_PROD_NO)
+                 LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        WHERE A.PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 현재 상품 판매여부 조회 -->
+    <select id="searchSaleYnByProdNo" resultType="string">
+        SELECT
+            PROD_AVAIL_YN
+        FROM TBL_PRODUCT
+        WHERE PROD_NO = #{ prodNo }
+    </select>
+
+    <!-- 판매중지로 변경 *상품정보수정일 업데이트* -->
+    <update id="stopSellingAProduct">
+        UPDATE
+            TBL_PRODUCT
+        SET PROD_AVAIL_YN = 'N'
+          , PROD_CHANGE_DATE = SYSDATE
+        WHERE PROD_NO = #{ prodNo }
+    </update>
+
+    <!-- 판매중으로 변경 *상품정보수정일 업데이트* -->
+    <update id="putAProductOnSale">
+        UPDATE
+            TBL_PRODUCT
+        SET PROD_AVAIL_YN = 'Y'
+          , PROD_CHANGE_DATE = SYSDATE
+        WHERE PROD_NO = #{ prodNo }
+    </update>
+
+    <!-- 상품 목록에서 완전삭제 *잘못된 정보가 게재된 경우에 한함* -->
+    <delete id="deleteOption"> <!-- 1.옵션 삭제 -->
+        DELETE
+        FROM TBL_OPTION A
+        WHERE A.REF_PROD_NO = (SELECT
+        B.PROD_NO
+        FROM TBL_PRODUCT B
+        WHERE A.REF_PROD_NO = B.PROD_NO
+        AND B.PROD_NO = #{ prodNo })
+    </delete>
+    <delete id="deleteOptionStock"> <!-- 2.해당 옵션의 입고량 삭제 -->
+        DELETE
+        FROM TBL_STOCK A
+        WHERE A.STOCK_NO NOT IN (SELECT
+        B.REF_STOCK_NO
+        FROM TBL_OPTION B)
+    </delete>
+    <delete id="deleteAttachment"> <!-- 3.첨부파일 삭제 -->
+        DELETE
+        FROM TBL_ATTACHMENT A
+        WHERE A.REF_PROD_NO = (SELECT
+        B.PROD_NO
+        FROM TBL_PRODUCT B
+        WHERE A.REF_PROD_NO = B.PROD_NO
+        AND B.PROD_NO = #{ prodNo })
+    </delete>
+    <delete id="deleteProduct"> <!-- 4. 상품 삭제 -->
+        DELETE
+        FROM TBL_PRODUCT
+        WHERE PROD_NO = #{ prodNo }
+    </delete>
+
+    <!-- 카테고리 섹션 조회 -->
+    <select id="getCategorySection" resultMap="categoryResultMap">
+        SELECT
+            DISTINCT(CATEGORY_SECTION)
+        FROM TBL_CATEGORY
+    </select>
+
+    <!-- 카테고리 섹션별 소분류 이름 조회 *상품많은순* -->
+    <select id="getCategoryListBySection" resultType="string">
+        SELECT
+            T.CATEGORY_NAME
+        FROM (SELECT
+                  A.CATEGORY_NAME
+                   , A.CATEGORY_SECTION
+                   , COUNT(B.CATEGORY_NO)
+              FROM TBL_CATEGORY A
+                       LEFT JOIN TBL_PRODUCT B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+              WHERE A.CATEGORY_SECTION = #{ category }
+              GROUP BY A.CATEGORY_NAME, A.CATEGORY_SECTION
+              ORDER BY COUNT(B.CATEGORY_NO) DESC) T
+    </select>
+
+    <!-- 카테고리 섹션별 소분류 상품 개수 조회 -->
+    <select id="getTotalNumberByMinorCategory" resultType="_int">
+        SELECT
+            COUNT(B.CATEGORY_NO)
+        FROM TBL_CATEGORY A
+                 LEFT JOIN TBL_PRODUCT B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        WHERE A.CATEGORY_NAME = #{ category }
+        GROUP BY A.CATEGORY_NAME
+    </select>
+
+    <!-- 상품 정렬 --> <!-- sql 구문은 사용하고자 하는 쿼리 이전에 선언되어야 함 -->
+    <sql id="sortBy">
+        <if test="sortBy == null">D.PROD_NO DESC</if>
+        <if test="sortBy == 'popularity'">D.PROD_DETAIL_VIEW_COUNT DESC</if>
+        <if test="sortBy == 'lowest'">D.PROD_PRICE ASC</if>
+        <if test="sortBy == 'latest'">D.PROD_ENROLL_DATE DESC, D.PROD_NO DESC</if>
+        <if test="sortBy == 'reviewed'">D.PROD_REVIEW_COUNT DESC</if>
+        <if test="sortBy == 'rated'">D.PROD_RATINGS DESC</if>
+    </sql>
+
+    <!-- 필터별 상품 개수 조회 -->
+    <select id="getTotalNumberByCriteria" parameterType="com.reminder.penshop.paging.model.dto.ItemCriteria" resultType="_int">
+        SELECT
+        COUNT(DISTINCT(A.PROD_NO))
+        FROM TBL_PRODUCT A
+        LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+        LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        WHERE A.PROD_AVAIL_YN = 'Y'
+        <if test="section != null and section != ''">AND B.CATEGORY_SECTION = #{ section }</if>
+        <if test="category != null and category != ''">AND B.CATEGORY_NAME = #{ category }</if>
+        <if test="brand != null and brand != ''">AND C.BRAND_NAME = #{ brand }</if>
+        <if test="tag != null and tag != ''">AND A.PRODUCT_TAG LIKE '%' || #{ tag } || '%'</if>
+        <if test="color != null and color != ''">AND O.OPT_INK_COLOR LIKE '%' || #{ color } || '%'</if>
+        <if test="min == 0 and max == 0">AND A.PROD_PRICE = A.PROD_PRICE</if>
+        <if test="min != null and min != 0 and max == 0">AND (A.PROD_PRICE - A.PROD_PRICE * A.DISCOUNT_RATE / 100) >= #{ min }</if>
+        <if test="min == 0 and max != null and max != 0">AND #{ max } > (A.PROD_PRICE - A.PROD_PRICE * A.DISCOUNT_RATE / 100)</if>
+        <if test="min != null and min != 0 and max != null and max != 0">AND (A.PROD_PRICE - A.PROD_PRICE * A.DISCOUNT_RATE / 100) >= #{ min } AND #{ max } > (A.PROD_PRICE - A.PROD_PRICE * A.DISCOUNT_RATE / 100)</if>
+    </select>
+
+    <!-- 필터별 상품 목록 조회 -->
+    <select id="getProductListByCategorySection" parameterType="com.reminder.penshop.paging.model.dto.ItemCriteria" resultMap="productResultMap">
+        <![CDATA[
+		SELECT F.*
+		  FROM(SELECT
+					  E.RANK RK
+					, E.*
+				 FROM (SELECT
+	]]>
+        ROW_NUMBER() OVER (ORDER BY <include refid="sortBy"/>) RANK
+        <![CDATA[
+							 , D.*
+						 FROM (SELECT
+									  DISTINCT(A.PROD_NO)
+									, A.PROD_PRICE
+									, A.PROD_DETAIL_VIEW_COUNT
+									, A.PROD_ENROLL_DATE
+									, RT.REVIEWED AS PROD_REVIEW_COUNT
+									, RT.RATED AS PROD_RATINGS
+								 FROM TBL_PRODUCT A
+								 LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+								 LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+								 LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+								 LEFT JOIN (SELECT
+								 				   AA.PROD_NO AS AAPNO
+								 				 , COUNT(RR.REVIEW_NO) AS REVIEWED
+												 , NVL(AVG(RR.REVW_RATINGS), 0) AS RATED
+											 FROM TBL_PRODUCT AA
+											 LEFT JOIN TBL_OPTION OO ON(OO.REF_PROD_NO = AA.PROD_NO)
+											 LEFT JOIN TBL_REVIEW RR ON(RR.OPTION_NO = OO.OPTION_NO)
+											GROUP BY AA.PROD_NO) RT
+										ON(RT.AAPNO = A.PROD_NO)
+								WHERE A.PROD_AVAIL_YN = 'Y'
+	]]>
+        <if test="section != null and section != ''">AND B.CATEGORY_SECTION = #{ section }</if>
+        <if test="category != null and category != ''">AND B.CATEGORY_NAME = #{ category }</if>
+        <if test="brand != null and brand != ''">AND C.BRAND_NAME = #{ brand }</if>
+        <if test="tag != null and tag != ''">AND A.PRODUCT_TAG LIKE '%' || #{ tag } || '%'</if>
+        <if test="color != null and color != ''">AND O.OPT_INK_COLOR LIKE '%' || #{ color } || '%'</if>
+        <if test="min == 0 and max == 0">AND A.PROD_PRICE = A.PROD_PRICE</if>
+        <if test="min != null and min != 0 and max == 0">AND (A.PROD_PRICE - A.PROD_PRICE * A.DISCOUNT_RATE / 100) >= #{ min }</if>
+        <if test="min == 0 and max != null and max != 0">AND #{ max } > (A.PROD_PRICE - A.PROD_PRICE * A.DISCOUNT_RATE / 100)</if>
+        <if test="min != null and min != 0 and max != null and max != 0">AND (A.PROD_PRICE - A.PROD_PRICE * A.DISCOUNT_RATE / 100) >= #{ min } AND #{ max } > (A.PROD_PRICE - A.PROD_PRICE * A.DISCOUNT_RATE / 100)</if>
+        ) D
+        ) E
+        <![CDATA[
+				WHERE E.RANK <= #{ page } * #{ items }) F
+		 WHERE F.RK > (#{ page } - 1) * #{ items }
+	]]>
+    </select>
+
+    <!-- 카테고리 섹션별 브랜드 목록 조회 *사전순* -->
+    <select id="getBrandNameBySection" resultType="string">
+        SELECT
+            DISTINCT(A.BRAND_NAME)
+        FROM TBL_BRAND A
+                 LEFT JOIN TBL_PRODUCT B ON(A.BRAND_NO = B.BRAND_NO)
+                 LEFT JOIN TBL_CATEGORY C ON(B.CATEGORY_NO = C.CATEGORY_NO)
+        WHERE C.CATEGORY_SECTION = #{ category }
+        ORDER BY A.BRAND_NAME
+    </select>
+
+    <!-- 상품 검색 *상품명/브랜드명/주요태그/심두께* -->
+    <select id="searchProductByKeyword" resultMap="productResultMap">
+        SELECT
+        A.PROD_NO
+        , B.CATEGORY_NAME
+        , C.BRAND_NAME
+        , A.PROD_NAME
+        , A.PROD_DESC
+        , A.PRODUCT_TAG
+        , A.DISCOUNT_RATE
+        , A.PROD_PRICE
+        , A.PROD_ORIGIN
+        , A.PROD_DETAIL_CONTENT
+        , A.PROD_DETAIL_VIEW_COUNT
+        , A.PROD_ENROLL_DATE
+        , A.PROD_CHANGE_DATE
+        , A.PROD_AVAIL_YN
+        , T.THUMBNAIL_PATH
+        , O.OPT_BODY_COLOR
+        , O.OPT_INK_COLOR
+        , O.OPT_POINT_SIZE
+        FROM TBL_PRODUCT A
+        LEFT JOIN TBL_CATEGORY B ON(A.CATEGORY_NO = B.CATEGORY_NO)
+        LEFT JOIN TBL_BRAND C ON(A.BRAND_NO = C.BRAND_NO)
+        LEFT JOIN TBL_ATTACHMENT T ON(A.PROD_NO = T.REF_PROD_NO)
+        LEFT JOIN TBL_OPTION O ON(A.PROD_NO = O.REF_PROD_NO)
+        WHERE A.PROD_AVAIL_YN = 'Y' <!-- 판매중인 상품에 한하여 검색 -->
+        AND (
+        <choose>
+            <when test="@org.apache.commons.lang3.math.NumberUtils@isCreatable(keyword)
+		   			and @org.apache.commons.lang3.StringUtils@contains(keyword, 46) and keyword lt 2"> <!-- parameterType 동적 구분 / ASCII 코드 기반 '.' 포함 여부 확인 / 취급 중인 상품의 심두께는 2.0 이하 -->
+                O.OPT_POINT_SIZE LIKE TO_NUMBER(#{ keyword })
+            </when>
+            <otherwise>
+                A.PROD_NAME LIKE '%' || #{ keyword } || '%'
+                OR C.BRAND_NAME LIKE '%' || #{ keyword } || '%'
+                OR A.PRODUCT_TAG LIKE '%' || #{ keyword } || '%'
+            </otherwise>
+        </choose>
+        )
+    </select>
+
+    <!-- 주문 가능한 랜덤 상품 옵션 1개 추출 *dummy data test* -->
+    <select id="getRandomProductOption" resultMap="optionResultMap">
+        SELECT
+            *
+        FROM (
+                 SELECT O.*
+                      , P.PROD_PRICE
+                 FROM TBL_OPTION O
+                          LEFT JOIN TBL_PRODUCT P ON(O.REF_PROD_NO = P.PROD_NO)
+                          LEFT JOIN TBL_STOCK S ON(O.REF_STOCK_NO = S.STOCK_NO)
+                 WHERE S.STOCK_AMOUNT >= #{ number }
+                 ORDER BY DBMS_RANDOM.RANDOM
+             )
+		<![CDATA[
+        WHERE ROWNUM <= 1
+        ]]>
+    </select>
+</mapper>
