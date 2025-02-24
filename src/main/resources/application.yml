@@ -1,0 +1,68 @@
+# server port config
+server:
+  port: 8081
+
+# datasource config
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@localhost:1521:xe
+    username: PENSHOP
+    password: 1234
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: young042510@gmail.com
+    password: zama fero viha nxdq
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+  profiles:
+    include: oauth
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 527a983c487cc523254619a8460e2e2a
+            redirect-uri: http://localhost:8081/oauth2/kakao #server port와 일치하게 등록 및 설정
+            client-authentication-method: POST
+            authorization-grant-type: authorization_code
+            scope:
+              - profile_nickname
+              - profile_image
+              - account_email
+            client-name: Kakao
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: id
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  redis:
+    host: localhost
+    port: 6379
+
+# mybatis config
+mybatis:
+  mapper-locations: mappers/**/*.xml
+
+# custom properties
+# social login
+social:
+  kakao:
+    apiKey: 527a983c487cc523254619a8460e2e2a
+    redirectUri: http://localhost:8081/oauth2/kakao #server port와 일치하게 등록 및 설정
+
+
+
+
+
+
