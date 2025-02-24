@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+	<meta charset="UTF-8">
+	<title>alert</title>
+</head>
+<body>
+	<section th:fragment="alert">
+		<!--/* 회원가입 */-->
+		<script th:if="${signUpMessage}" type="text/javascript">
+			const result = '[[${signUpMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					text: '본인인증메일 확인 통해 계정을 활성화하세요',
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!--/* 회원가입 후 이메일 인증 및 계정 활성화 */-->
+		<script th:if="${verificationMessage}" type="text/javascript">
+			const result = '[[${verificationMessage}]]'
+			if(result.indexOf('성공') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					text: '가입한 아이디와 비밀번호로 로그인하세요',
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else if(result.indexOf('실패') > 0) {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					text: '토큰이 재발급되었습니다, 다시 시도해 주세요',
+					showConfirmButton: false,
+					timer: 3000
+				})
+			} else {
+				Swal.fire({
+					icon: 'warning',
+					title: result,
+					text: '이미 인증된 계정이거나 만료된 토큰입니다',
+					showConfirmButton: false,
+					timer: 3000
+				})
+			}
+		</script>
+		
+		<!--/* 로그인 */-->
+		<script th:if="${signInMessageTitle}" type="text/javascript">
+			const title = '[[${signInMessageTitle}]]'
+			const text = '[[${signInMessageText}]]'
+			Swal.fire({
+				position: 'top-end',
+				icon: 'error',
+				title: title,
+				text: text,
+				showConfirmButton: false,
+				timer: 3000
+			})
+		</script>
+		
+		<!--/* 아이디 찾기 */-->
+		<script th:if="${forgotIdMessage}" type="text/javascript">
+			const result = '[[${forgotIdMessage}]]'
+			const date = '[[${accCreationDate}]]'
+			if(result.indexOf('없습니다') > 0) {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					text: '조회된 아이디의 가입일은 ' + date + ' 입니다',
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!--/* 비밀번호 찾기 */-->
+		<script th:if="${forgotPwdMessage}" type="text/javascript">
+			const result = '[[${forgotPwdMessage}]]'
+			if(result.indexOf('오류') > 0) {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					text: '잠시 후 다시 시도해 주세요',
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					text: '로그인 후 비밀번호를 꼭 변경해 주세요',
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!--/* 휴대폰 실명인증 안내 */-->
+		<script th:if="${authenticationRequired}" type="text/javascript">
+			const text = '[[${authenticationRequired}]]'
+			Swal.fire({
+				icon: 'error',
+				title: '휴대폰 실명인증을 진행하세요',
+				text: text,
+				confirmButtonColor: '#00008b',
+				confirmButtonText: '확인'
+			}).then((result) => {
+				if(result.isConfirmed) {}
+			})
+		</script>
+		
+		<!--/* 리뷰 작성 결과 */-->
+		<script th:if="${writeReviewMessage}" type="text/javascript">
+			const result = '[[${writeReviewMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!-- 리뷰 수정 결과 -->
+		<script th:if="${editReviewMessage}" type="text/javascript">
+			const result = '[[${editReviewMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!--/* 리뷰 삭제 결과 */-->
+		<script th:if="${deleteReviewMessage}" type="text/javascript">
+			const result = '[[${deleteReviewMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!--/* 문의 작성 결과 */-->
+		<script th:if="${writeInquiryMessage}" type="text/javascript">
+			const result = '[[${writeInquiryMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!--/* 문의 삭제 결과 */-->
+		<script th:if="${deleteInquiryMessage}" type="text/javascript">
+			const result = '[[${deleteInquiryMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!--/* 임시 비밀번호 재설정 안내 */-->
+		<script th:if="${resetPasswordRequired}">
+			const text = '[[${resetPasswordRequired}]]'
+			Swal.fire({
+				icon: 'warning',
+				title: text,
+				text: '회원님께서는 현재 임시 비밀번호를 사용 중입니다',
+				showConfirmButton: false,
+				timer: 3000
+			})
+		</script>
+		
+		<!--/* 회원정보수정 */-->
+		<script th:if="${profileUpdateMessage}" type="text/javascript">
+			const result = '[[${profileUpdateMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					position: 'top-end',
+					icon: 'success',
+					title: result,
+					showConfirmButton: false,
+					timer: 3000
+				})
+			} else {
+				Swal.fire({
+					position: 'top-end',
+					icon: 'error',
+					title: result,
+					showConfirmButton: false,
+					timer: 3000
+				})
+			}
+		</script>
+	
+		<!--/* 회원탈퇴 */-->
+		<script th:if="${closeAccountMessage}" type="text/javascript">
+			const result = '[[${closeAccountMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					text: '그동안 penshop를 이용해 주셔서 감사합니다',
+					timer: 3000
+				})
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+		
+		<!--/* 메인페이지 디자인 관리 */-->
+		<script th:if="${displayImageMessage}" type="text/javascript">
+			const result = '[[${displayImageMessage}]]'
+			if(result.indexOf('완료') > 0) {
+				Swal.fire({
+					icon: 'success',
+					title: result,
+					text: '변경사항이 메인페이지에 반영되었습니다',
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			} else {
+				Swal.fire({
+					icon: 'error',
+					title: result,
+					text: '잠시 후 다시 시도해 주세요',
+					confirmButtonColor: '#00008b',
+					confirmButtonText: '확인'
+				})
+			}
+		</script>
+	</section>
+</body>
+</html>
