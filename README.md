@@ -1,6 +1,7 @@
 # ✍️ penshop
 
 - E-Commerce Web Application with Spring Boot
+- 필기류 판매 웹사이트
 
 # 🛠기술 스택
 OS |  Mac
