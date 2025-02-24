@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>penshop</title>
+</head>
+<body style="font-family: 'Noto Sans KR', sans-serif;">
+	<div style="width: 100%; max-width: 600px; margin: 0 auto;">
+		<table style="width: 100%; margin-top: 80px;">
+			<tbody>
+				<tr>
+					<td style="text-align: center;">
+						<span class="fs-4" style="font-family: 'Gowun Dodum', sans-serif; font-size: 36px; font-weight: 700;">penshop</span>
+					</td>
+				</tr>
+				<tr style="background-color: #fff;">
+					<td>
+						<p>
+							<b>[[${ member.name }]]</b>님, 안녕하세요!<br>
+							아래 '이메일 인증' 버튼을 눌러 회원가입을 완료해 주세요.
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+						<div style="height: 80px; margin-top: 30px; border-bottom: 1px solid #E5E5E5;">
+							<a th:href="|http://127.0.0.1:8081/member/verify?token=${token}|" style="padding: 10px 14px; font-size: 14px; color: #000; background-color: #fff; border: 1px solid #000; cursor: pointer;">이메일 인증하고 penshop 시작하기</a>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align: center;">
+						<p style="margin-top: 20px; font-size: 12px; color: #6c757d;">
+							penshop에서 보냄 &middot; <a style="color: #00008b; text-decoration: none;">@rhjdev</a><br>
+							Copyright &copy; Geulbeotmall. All Rights Reserved.
+						</p>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>
