@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" th:fragment="slider">
+<head>
+    <meta charset="utf-8">
+    <title>main display slider</title>
+    <link href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link th:href="@{/css/slider.css}" rel="stylesheet">
+</head>
+<body>
+	<div class="swiper mainSwiper">
+		<div class="main-wrapper swiper-wrapper">
+			<div class="main swiper-slide" th:each="slide : ${ slides }">
+				<button type="button" class="viewBtn btn" th:onclick="|location.href='@{/product/details(no=${slide.product.prodNo})}'|">[[${slide.product.prodName}]]</button>
+				<div class="image-wrapper">
+					<div class=imageBox>
+						<div class="background"></div>
+						<img class="image" th:src="${ slide.savePath }">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="swiper-pagination"></div>
+	</div>
+    <!--/* JS */-->
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+	<script th:src="@{/js/slider.js}" type="text/javascript"></script>
+</body>
+</html>
